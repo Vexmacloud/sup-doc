@@ -20,23 +20,37 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Test SSH Connection
-      run: ssh -i ~/.ssh/id_rsa bitnami@${{ secrets.EC2_HOST }} "echo SSH Connection Successful!"
-
     - name: Deploy to EC2
       run: |
         ssh -i ~/.ssh/id_rsa bitnami@${{ secrets.EC2_HOST }} << 'EOF'
-          sudo rm -rf /opt/bitnami/apache/htdocs/*
+          export PATH=$PATH:/opt/bitnami/nodejs/bin
+
+          # Remove existing directory and create fresh one
+          sudo rm -rf /opt/bitnami/apache/htdocs
+          sudo mkdir -p /opt/bitnami/apache/htdocs
+          sudo chown -R bitnami:daemon /opt/bitnami/apache/htdocs
           cd /opt/bitnami/apache/htdocs
+
+          # Clone new code
           git clone ${{ secrets.REPO_URL }} .
+
+          # Install dependencies and build assets
           composer install --no-dev --optimize-autoloader
           npm install && npm run build
-          cp .env.example .env
+
+          # Create .env from secret ENV_CONTENT
+          echo "${{ secrets.ENV_CONTENT }}" > .env
+
+          # Laravel commands
           php artisan key:generate
           php artisan migrate --force
           php artisan config:clear
           php artisan cache:clear
+
+          # Fix permissions
           sudo chown -R bitnami:daemon /opt/bitnami/apache/htdocs
           sudo chmod -R 775 /opt/bitnami/apache/htdocs/storage /opt/bitnami/apache/htdocs/bootstrap/cache
-          sudo systemctl restart apache2
-        
+
+          # Restart Apache via Bitnami control script
+          sudo /opt/bitnami/ctlscript.sh restart apache
+        EOF
