@@ -740,4 +740,4 @@ export default defineComponent({
     height: 42px;
   }
 }
-</styl
+</style>

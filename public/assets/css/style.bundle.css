@@ -726,11 +726,11 @@ progress {
 .container-lg,
 .container-md,
 .container-sm {
-  --bs-gutter-x: 1.5rem;
+  --bs-gutter-x: 0rem;
   --bs-gutter-y: 0;
   width: 100%;
-  padding-right: calc(var(--bs-gutter-x) * 0.5);
-  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  padding-right: calc(var(--bs-gutter-x) * 0);
+  padding-left: calc(var(--bs-gutter-x) * 0);
   margin-right: auto;
   margin-left: auto;
 }
@@ -1215,7 +1215,7 @@ progress {
   }
   .g-sm-6,
 .gx-sm-6 {
-    --bs-gutter-x: 1.5rem;
+    --bs-gutter-x: 0.1rem;
   }
   .g-sm-6,
 .gy-sm-6 {
