@@ -20,9 +20,12 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
+    - name: Test SSH Connection
+      run: ssh -i ~/.ssh/id_rsa bitnami@${{ secrets.EC2_HOST }} "echo SSH Connection Successful!"
+
     - name: Deploy to EC2
       run: |
-        ssh ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+        ssh -i ~/.ssh/id_rsa bitnami@${{ secrets.EC2_HOST }} << 'EOF'
           sudo rm -rf /opt/bitnami/apache/htdocs/*
           cd /opt/bitnami/apache/htdocs
           git clone ${{ secrets.REPO_URL }} .
@@ -36,4 +39,4 @@ jobs:
           sudo chown -R bitnami:daemon /opt/bitnami/apache/htdocs
           sudo chmod -R 775 /opt/bitnami/apache/htdocs/storage /opt/bitnami/apache/htdocs/bootstrap/cache
           sudo systemctl restart apache2
-        EOF
+        
