@@ -1,4 +1,4 @@
-name: CI/CD Pipeline to EC2
+name: Deploy Laravel & Vue to EC2
 
 on:
   push:
@@ -10,37 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-
-    - name: Install Vue.js dependencies
-      run: npm install --legacy-peer-deps
-    - name: Grant execute permission to vite
-      run: chmod +x ./node_modules/.bin/vite
-
-    - name: Build Vue.js application
-      run: npm run build
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
     - name: Deploy to EC2
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USER }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          # Remove existing files in the web directory
+      run: |
+        ssh ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
           sudo rm -rf /opt/bitnami/apache/htdocs/*
-          
-          # Copy the built Vue.js files to the web directory
-          sudo cp -r ${{ github.workspace }}/dist/* /opt/bitnami/apache/htdocs/
-          
-          # Set proper permissions
-          sudo chown -R bitnami:bitnami /opt/bitnami/apache/htdocs
-          
-          # Restart Apache to apply changes
-          sudo /opt/bitnami/ctlscript.sh restart apache
+          cd /opt/bitnami/apache/htdocs
+          git clone ${{ secrets.REPO_URL }} .
+          composer install --no-dev --optimize-autoloader
+          npm install && npm run build
+          cp .env.example .env
+          php artisan key:generate
+          php artisan migrate --force
+          php artisan config:clear
+          php artisan cache:clear
+          sudo chown -R bitnami:daemon /opt/bitnami/apache/htdocs
+          sudo chmod -R 775 /opt/bitnami/apache/htdocs/storage /opt/bitnami/apache/htdocs/bootstrap/cache
+          sudo systemctl restart apache2
+        EOF
