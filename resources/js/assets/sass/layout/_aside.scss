@@ -2,9 +2,21 @@
 .aside {
   flex-shrink: 1;
   transition: all 0.3s ease;
-  background: linear-gradient(to bottom, #ffffff, #f7f7f9);
-  box-shadow: 0 2px 10px rgba(19, 20, 60, 0.05);
   width: 160px; // Reduced width further
+  
+  // Light theme styles
+  @media (prefers-color-scheme: light) {
+    background: linear-gradient(to bottom, #ffffff, #f7f7f9);
+    box-shadow: 0 2px 10px rgba(19, 20, 60, 0.05);
+    border-right: 1px solid lighten(#13143c, 70%);
+  }
+  
+  // Dark theme styles
+  @media (prefers-color-scheme: dark) {
+    background: linear-gradient(to bottom, #000000, #000000);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+  }
   
   .menu {
     padding: 0.75rem;
@@ -17,8 +29,8 @@
         transform: translateX(3px);
       }
       
-      > .menu-content { 
-        margin-left: 3px; 
+      > .menu-content {
+        margin-left: 3px;
         transition: height 0.25s ease;
       }
       
@@ -37,9 +49,18 @@
           top: 0;
           height: 100%;
           width: 0;
-          background: rgba(var(--#{$prefix}primary-rgb), 0.08);
           transition: width 0.2s ease;
           z-index: -1;
+          
+          // Light theme hover
+          @media (prefers-color-scheme: light) {
+            background: rgba(var(--#{$prefix}primary-rgb), 0.08);
+          }
+          
+          // Dark theme hover
+          @media (prefers-color-scheme: dark) {
+            background: rgba(var(--#{$prefix}primary-rgb), 0.15);
+          }
         }
         
         &:hover {
@@ -49,17 +70,35 @@
         }
         
         > .menu-title {
-          color: #071437a1;
           font-weight: $font-weight-semibold;
           transition: color 0.2s ease;
+          
+          // Light theme text color
+          @media (prefers-color-scheme: light) {
+            color: #071437a1;
+          }
+          
+          // Dark theme text color
+          @media (prefers-color-scheme: dark) {
+            color: rgba(255, 255, 255, 0.85);
+          }
         }
         
         > .menu-badge {
-          color: #13143c;
           font-weight: $font-weight-semibold;
           font-size: 0.9rem;
           transition: all 0.2s ease;
           opacity: 0.8;
+          
+          // Light theme badge color
+          @media (prefers-color-scheme: light) {
+            color: #13143c;
+          }
+          
+          // Dark theme badge color
+          @media (prefers-color-scheme: dark) {
+            color: rgba(255, 255, 255, 0.9);
+          }
         }
         
         &.active {
@@ -74,8 +113,18 @@
           }
           
           border-left: 3px solid var(--#{$prefix}primary);
-          background: rgba(var(--#{$prefix}primary-rgb), 0.05);
-          box-shadow: 0 2px 6px rgba(var(--#{$prefix}primary-rgb), 0.1);
+          
+          // Light theme active state
+          @media (prefers-color-scheme: light) {
+            background: rgba(var(--#{$prefix}primary-rgb), 0.05);
+            box-shadow: 0 2px 6px rgba(var(--#{$prefix}primary-rgb), 0.1);
+          }
+          
+          // Dark theme active state
+          @media (prefers-color-scheme: dark) {
+            background: rgba(var(--#{$prefix}primary-rgb), 0.2);
+            box-shadow: 0 2px 6px rgba(var(--#{$prefix}primary-rgb), 0.15);
+          }
         }
       }
     }
@@ -93,7 +142,6 @@
     height: calc(100vh - 72px);
     overflow-y: auto;
     z-index: 1000;
-    border-right: 1px solid lighten(#13143c, 70%);
     backdrop-filter: blur(5px);
     
     &::-webkit-scrollbar {
@@ -101,18 +149,32 @@
     }
     
     &::-webkit-scrollbar-track {
-      background: rgba(19, 20, 60, 0.03);
+      @media (prefers-color-scheme: light) {
+        background: rgba(19, 20, 60, 0.03);
+      }
+      @media (prefers-color-scheme: dark) {
+        background: rgba(255, 255, 255, 0.03);
+      }
       border-radius: 4px;
     }
     
     &::-webkit-scrollbar-thumb {
-      background-color: rgba(19, 20, 60, 0.15);
       border-radius: 4px;
       border: 2px solid transparent;
       background-clip: content-box;
       
-      &:hover {
-        background-color: rgba(19, 20, 60, 0.25);
+      @media (prefers-color-scheme: light) {
+        background-color: rgba(19, 20, 60, 0.15);
+        &:hover {
+          background-color: rgba(19, 20, 60, 0.25);
+        }
+      }
+      
+      @media (prefers-color-scheme: dark) {
+        background-color: rgba(255, 255, 255, 0.15);
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.25);
+        }
       }
     }
   }
