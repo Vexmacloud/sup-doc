@@ -12,7 +12,8 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('splash-screen.css') }}">
-
+        <script src="https://docs.vexmacloud.com/public/supportboard/js/min/jquery.min.js"></script>
+        <script id="sbinit" src="https://docs.vexmacloud.com/public/supportboard/js/main.js"></script>
     <!-- <script src="https://cdn.tiny.cloud/1/glvdbar1akcht9rtd7mkcjkhpeny4rvvu8a2b3dyfew1n47h/tinymce/5/tinymce.min.js"
         referrerpolicy="origin"></script>
         <script src="https://cloud.vexmatech.com/public/supportboard/js/min/jquery.min.js"></script>

@@ -1,7 +1,7 @@
 <template>
   <div class="introduction-container">
     <header class="header-section">
-      <h1 class="main-heading">Transforming Manufacturing with CI/CD Cloud</h1>
+      <h1 class="main-heading">Transforming Manufacturing with Vexma Cloud</h1>
       <p class="subtitle">Your comprehensive solution for digital manufacturing excellence</p>
       <div class="accent-line"></div>
     </header>
@@ -83,7 +83,7 @@
             <span class="arrow-icon">❮</span>
           </button>
           <button class="floating-arrow floating-arrow-right" @click="nextImage()">
-            <span class="arrow-icon">❯</span>
+            <span class="arrow-icon"></span>
           </button>
         </div>
       </div>
