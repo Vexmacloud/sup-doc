@@ -370,13 +370,24 @@ export default defineComponent({
 
 <style>
 .topbar-container {
+<<<<<<< HEAD
   background:#003ca5;
   padding: 1.2rem 1.5rem;
+=======
+  background: #003ca5;
+  padding: 0;
+>>>>>>> 33a873dde (Initial commit)
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+<<<<<<< HEAD
+=======
+  height: 70px;
+  display: flex;
+  align-items: center;
+>>>>>>> 33a873dde (Initial commit)
 }
 
 .topbar-content {
@@ -386,14 +397,30 @@ export default defineComponent({
   flex-wrap: wrap;
   max-width: 1400px;
   margin: 0 auto;
+<<<<<<< HEAD
 }
 
 
+=======
+  width: 100%;
+  height: 100%;
+  padding: 0 1rem;
+}
+
+>>>>>>> 33a873dde (Initial commit)
 .logo-container {
   flex-shrink: 0;
   min-width: 120px;
   position: relative;
   transition: transform 0.3s ease;
+<<<<<<< HEAD
+=======
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-left: 0;
+  padding-left: 0;
+>>>>>>> 33a873dde (Initial commit)
 }
 
 .logo-container:hover {
@@ -419,14 +446,24 @@ export default defineComponent({
 .role-selector {
   display: flex;
   gap: 1rem;
+<<<<<<< HEAD
   margin-right: auto;
+=======
+  margin-left: 2rem;
+  margin-right: auto;
+  align-items: center;
+  height: 100%;
+>>>>>>> 33a873dde (Initial commit)
 }
 
 .role-btn {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   border-radius: 10px;
+<<<<<<< HEAD
   padding: 0.75rem 1.5rem;
+=======
+>>>>>>> 33a873dde (Initial commit)
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   white-space: nowrap;
@@ -438,6 +475,15 @@ export default defineComponent({
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   text-decoration: none;
   letter-spacing: 0.5px;
+<<<<<<< HEAD
+=======
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 120px;
+  text-align: center;
+>>>>>>> 33a873dde (Initial commit)
 }
 
 .role-btn:before {
@@ -483,9 +529,21 @@ export default defineComponent({
 }
 
 .search-container {
+<<<<<<< HEAD
   flex-grow: 1;
   max-width: 350px;
   margin-left: auto;
+=======
+  flex-grow: 0;
+  width: 350px;
+  max-width: 350px;
+  margin-left: auto;
+  margin-right: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+>>>>>>> 33a873dde (Initial commit)
 }
 
 .search-wrapper {
@@ -504,7 +562,11 @@ export default defineComponent({
   border: 2px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
   font-size: 1rem;
+<<<<<<< HEAD
   height: 46px;
+=======
+  height: 42px;
+>>>>>>> 33a873dde (Initial commit)
   background-color: rgba(255, 255, 255, 0.08);
   color: #ffffff;
   transition: all 0.3s ease;
@@ -667,14 +729,41 @@ export default defineComponent({
 
 /* Responsive styles */
 @media (max-width: 767px) {
+<<<<<<< HEAD
   .topbar-content {
     flex-direction: row;
     flex-wrap: wrap;
+=======
+  .topbar-container {
+    height: auto;
+    min-height: 60px;
+    padding: 0.75rem;
+  }
+  
+  .topbar-content {
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0;
+>>>>>>> 33a873dde (Initial commit)
   }
 
   .menu-toggle {
     display: flex;
     order: 3;
+<<<<<<< HEAD
+=======
+    margin-left: auto;
+    background-color: #2a5ab9;
+    border-radius: 8px;
+    padding: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .menu-toggle:active {
+    background-color: #1e4494;
+    transform: scale(0.95);
+>>>>>>> 33a873dde (Initial commit)
   }
 
   .role-selector {
@@ -683,6 +772,69 @@ export default defineComponent({
     order: 4;
     margin: 1rem 0 0;
     flex-direction: column;
+<<<<<<< HEAD
+=======
+    gap: 0.75rem;
+    height: auto;
+    border-radius: 10px;
+    padding: 0.75rem;
+    background: #002a6e;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    border: 1px solid #0045b5;
+  }
+
+  .role-selector.mobile-visible {
+    display: flex !important;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .role-btn {
+    width: 100%;
+    height: 50px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    background: #1a4db3;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid #3f6ad1;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Make sure the last button doesn't have margin to avoid extra spacing */
+  .role-btn:last-child {
+    margin-bottom: 0;
+  }
+  
+  .role-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    background: #1a439d;
+  }
+  
+  .role-btn.active {
+    background: #4066cc;
+    box-shadow: 0 4px 12px rgba(64, 102, 204, 0.4);
+    border: 1px solid #6b8ddc;
+    position: relative;
+  }
+  
+  .role-btn.active:after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 2px;
+>>>>>>> 33a873dde (Initial commit)
   }
 
   .search-container {
@@ -691,6 +843,27 @@ export default defineComponent({
     max-width: none;
     order: 5;
     margin: 1rem 0 0;
+<<<<<<< HEAD
+=======
+    height: auto;
+  }
+  
+  .search-container.mobile-visible {
+    display: flex !important;
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .search-input {
+    background-color: #1a4db3;
+    border: 2px solid #3f6ad1;
+    backdrop-filter: none;
+  }
+  
+  .search-input:focus {
+    background-color: #2255bd;
+    border-color: #5a7ce2;
+>>>>>>> 33a873dde (Initial commit)
   }
 
   .mobile-visible {
@@ -711,6 +884,11 @@ export default defineComponent({
 
   .search-results-info {
     padding: 0.75rem 1rem;
+<<<<<<< HEAD
+=======
+    background: #0d1d50;
+    backdrop-filter: none;
+>>>>>>> 33a873dde (Initial commit)
   }
 
   .results-navigation {
@@ -726,18 +904,54 @@ export default defineComponent({
 
   .close-search {
     margin-left: auto;
+<<<<<<< HEAD
+=======
+    background-color: #2a5ab9;
+  }
+  
+  .navigation-buttons button {
+    background-color: #2a5ab9;
+>>>>>>> 33a873dde (Initial commit)
   }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
+<<<<<<< HEAD
   .role-btn {
     padding: 0.625rem 1.125rem;
     font-size: 0.875rem;
+=======
+  .topbar-container {
+    height: 60px;
+  }
+  
+  .topbar-content {
+    padding: 0 0.75rem;
+  }
+  
+  .role-selector {
+    margin-left: 1.5rem;
+    gap: 0.75rem;
+  }
+  
+  .role-btn {
+    font-size: 0.875rem;
+    height: 36px;
+    width: 100px;
+>>>>>>> 33a873dde (Initial commit)
   }
 
   .search-input {
     font-size: 0.875rem;
+<<<<<<< HEAD
     height: 42px;
+=======
+    height: 38px;
+  }
+  
+  .search-container {
+    width: 280px;
+>>>>>>> 33a873dde (Initial commit)
   }
 }
 </style>
