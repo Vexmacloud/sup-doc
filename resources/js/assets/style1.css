@@ -51,7 +51,7 @@
   padding: 30px;
   background: var(--background-color);
   border-radius: 16px;
-  /* box-shadow: 0 10px 30px var(--shadow-color); */
+  box-shadow: 0 10px 30px var(--shadow-color);
   font-family: 'Segoe UI', system-ui, sans-serif;
   color: var(--text-color);
 }
@@ -129,7 +129,82 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Add this to position arrow on the right */
   user-select: none;
+  outline: none;
+}
+
+/* Updated Arrow indicator for topic title - Using SVG arrow */
+.topic-title::after {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234285F4'%3E%3Cpath d='M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: transform 0.3s ease;
+}
+
+/* Rotate arrow when section is open */
+.topic-section[open] .topic-title::after {
+  transform: rotate(90deg);
+}
+
+/* Add a slight pulse animation to the arrow to draw attention */
+@keyframes pulse {
+  0% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 0.7; transform: scale(1); }
+}
+
+/* Apply the pulse animation to closed sections to draw attention */
+.topic-section:not([open]) .topic-title::after {
+  animation: pulse 2s infinite;
+}
+
+/* Target the topic-title class specifically */
+.topic-title:focus {
+  outline: none !important;
+}
+
+/* Also add this to prevent any default focus styles on the topic title */
+.topic-title:focus,
+.topic-title:active {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+.topic-section .topic-title:focus {
+  outline: none;
+}
+/* If the topic title is within a details element, also handle that case */
+details .topic-title:focus,
+details .topic-title:active {
+  outline: none;
+}             
+summary::-webkit-focus-ring-color {
+  color: transparent;
+}
+
+/* Remove any other potential borders in summary elements (which topic-title might be) */
+summary:focus,
+details:focus,
+details:focus-within,
+summary:focus-visible {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+summary::-moz-focus-inner {
+  border: 0;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary {
+  outline: none;
 }
 
 .section-icon {
@@ -270,52 +345,38 @@
   padding: 10px 0;
 }
 
-.carousel-indicators {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-.indicator-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: var(--carousel-dot);
-  margin: 0 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.indicator-dot.active {
-  background-color: var(--primary-color);
-  transform: scale(1.3);
-}
-
-/* Floating arrows for navigation */
+/* Enhanced floating arrows for navigation */
 .floating-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: var(--feature-bg);
-  border: 2px solid var(--primary-color);
+  border: none;
   box-shadow: 0 4px 12px var(--shadow-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
   cursor: pointer;
-  color: var(--secondary-color);
   z-index: 10;
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
-.floating-arrow:hover {
-  background: var(--primary-color);
-  color: var(--text-color);
-  transform: translateY(-50%) scale(1.1);
+.floating-arrow::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--accent-gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.floating-arrow:hover::before {
+  opacity: 1;
 }
 
 .floating-arrow-left {
@@ -327,7 +388,40 @@
 }
 
 .arrow-icon {
-  line-height: 0;
+  position: relative;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  display: block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.3s ease;
+}
+
+.floating-arrow-left .arrow-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234285F4'%3E%3Cpath d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'/%3E%3C/svg%3E");
+}
+
+.floating-arrow-right .arrow-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234285F4'%3E%3Cpath d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'/%3E%3C/svg%3E");
+}
+
+/* Fixed the hover state for left arrow */
+.floating-arrow-left:hover .arrow-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'/%3E%3C/svg%3E");
+  transform: scale(1.1);
+}
+
+/* Fixed the hover state for right arrow */
+.floating-arrow-right:hover .arrow-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'/%3E%3C/svg%3E");
+  transform: scale(1.1);
+}
+
+.floating-arrow:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 16px rgba(38, 103, 255, 0.4);
 }
 
 /* Video Section */
@@ -529,9 +623,13 @@
   }
   
   .floating-arrow {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
+    width: 36px;
+    height: 36px;
+  }
+  
+  .arrow-icon {
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -558,6 +656,11 @@
   
   .video-container:hover {
     transform: none;
+  }
+
+  /* Disable arrow animation for reduced motion */
+  .topic-section:not([open]) .topic-title::after {
+    animation: none;
   }
 }
 
@@ -595,5 +698,26 @@ button:focus-visible, a:focus-visible {
   .checkmark {
     color: #2e7d32;
     background-color: rgba(46, 125, 50, 0.1);
+  }
+  
+  /* Update arrow colors for light mode */
+  .topic-title::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231a73e8'%3E%3Cpath d='M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z'/%3E%3C/svg%3E");
+  }
+  
+  .floating-arrow-left .arrow-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231a73e8'%3E%3Cpath d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'/%3E%3C/svg%3E");
+  }
+  
+  .floating-arrow-right .arrow-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231a73e8'%3E%3Cpath d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'/%3E%3C/svg%3E");
+  }
+}
+
+/* Add mobile-friendly arrow size */
+@media (max-width: 576px) {
+  .topic-title::after {
+    width: 14px;
+    height: 14px;
   }
 }

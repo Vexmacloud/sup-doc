@@ -1,4 +1,4 @@
-<template>
+F<template>
   <div 
     class="activation-page" 
     style="font-family: var(--font-nunito); background-color: var(--color-off-white); color: var(--color-body); padding: 3rem 2rem; margin-left: 110px;"
@@ -20,7 +20,7 @@
     <!-- Activation Steps With Visual Elements -->
     <section class="activation-steps">
       <h2 class="section-heading">
-        <span class="section-icon"><img src="@/../../public/images/rocket.gif" alt="rocket" style="width: 40px; height: 40px;"/></span>
+        <!-- <span class="section-icon"><img src="@/../../public/images/rocket.gif" alt="rocket" style="width: 40px; height: 40px;"/></span> -->
         How Activation Works
       </h2>
       

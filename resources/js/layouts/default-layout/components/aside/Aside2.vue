@@ -80,7 +80,7 @@
 
          
            <!--begin::Menu item-->
-           <div class="menu-item">
+           <!-- <div class="menu-item">
             <router-link
               to="/employee/devs/problems"
               active-class="active"
@@ -88,7 +88,7 @@
             >
               <span class="menu-title">Problems</span>
             </router-link>
-          </div>
+          </div> -->
           <!--end::Menu item-->
 
 
