@@ -6,13 +6,36 @@
         <!-- Logo placeholder -->
       </div>
 
+      <!-- Search Container - Now always visible -->
+      <div class="search-container">
+        <div class="search-wrapper">
+          <input type="text" class="search-input" placeholder="How can we help you..." aria-label="Search"
+            v-model="searchTerm" @keyup.enter="handleSearch" ref="searchInput" />
+          <button class="search-btn" @click="handleSearch" :disabled="isLoading" aria-label="Search">
+            <span v-if="!isLoading" class="search-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <span v-else class="loading-spinner"></span>
+          </button>
+        </div>
+      </div>
+
       <!-- Hamburger Menu for Mobile -->
       <button class="menu-toggle" @click="toggleMobileMenu" aria-label="Toggle Menu">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        <svg v-if="!mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="3" y1="12" x2="21" y2="12"></line>
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
 
@@ -40,23 +63,6 @@
         >
           Customer
         </router-link>
-      </div>
-
-      <div class="search-container" :class="{ 'mobile-visible': mobileMenuOpen }">
-        <div class="search-wrapper">
-          <input type="text" class="search-input" placeholder="How can we help you..." aria-label="Search"
-            v-model="searchTerm" @keyup.enter="handleSearch" ref="searchInput" />
-          <button class="search-btn" @click="handleSearch" :disabled="isLoading" aria-label="Search">
-            <span v-if="!isLoading" class="search-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </span>
-            <span v-else class="loading-spinner"></span>
-          </button>
-        </div>
       </div>
     </div>
 
@@ -380,8 +386,11 @@ export default defineComponent({
   height: 70px;
   display: flex;
   align-items: center;
+  /* Adding padding-top and padding-bottom to create equal spacing */
+  padding-top: 16px;
+  padding-bottom: 15px;
+  box-sizing: border-box;
 }
-
 .topbar-content {
   display: flex;
   align-items: center;
@@ -392,6 +401,7 @@ export default defineComponent({
   width: 100%;
   height: 100%;
   padding: 0 1rem;
+  position: relative; /* Added for absolute positioning of the mobile menu */
 }
 
 .logo-container {
@@ -688,13 +698,14 @@ export default defineComponent({
   opacity: 0.5;
   cursor: not-allowed;
 }
-
 /* Responsive styles */
 @media (max-width: 767px) {
   .topbar-container {
     height: auto;
     min-height: 60px;
-    padding: 0.75rem;
+    padding: 0.75rem; /* Consistent padding */
+    display: flex;
+    align-items: center; /* Center children vertically */
   }
   
   .topbar-content {
@@ -702,6 +713,35 @@ export default defineComponent({
     flex-wrap: wrap;
     height: auto;
     padding: 0;
+    gap: 10px;
+  }
+
+  .logo-container {
+    flex: 0 0 auto;
+    min-width: 80px;
+    max-width: 100px;
+  }
+
+  .search-container {
+  flex: 1 1 auto;
+  order: 2;  /* Makes search bar appear between logo and hamburger */
+  display: flex;
+  align-items: center; /* Center search bar vertically */
+  width: calc(100% - 80px);  /* Adjust based on logo and hamburger width */
+  max-width: none;
+  height: 42px;
+  margin: 0 10px;
+  padding: 0.5rem 0; /* Add equal padding to the top and bottom */
+}
+  
+  .search-input {
+    height: 36px;
+    font-size: 0.875rem;
+    padding: 0.5rem 2.5rem 0.5rem 0.875rem;
+  }
+  
+  .search-btn {
+    padding: 0 0.5rem;
   }
 
   .menu-toggle {
@@ -712,6 +752,8 @@ export default defineComponent({
     border-radius: 8px;
     padding: 0.5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    flex: 0 0 auto;
+    align-items: center; /* Center hamburger menu vertically */
   }
   
   .menu-toggle:active {
@@ -721,17 +763,24 @@ export default defineComponent({
 
   .role-selector {
     display: none;
+    position: absolute; /* Position absolutely */
+    top: 100%; /* Position it right below the topbar */
+    left: 0;
+    right: 0;
     width: 100%;
-    order: 4;
-    margin: 1rem 0 0;
+    margin: 0; /* Remove margins */
     flex-direction: column;
     gap: 0.75rem;
     height: auto;
-    border-radius: 10px;
+    border-radius: 0 0 10px 10px; /* Rounded corners only at bottom */
     padding: 0.75rem;
     background: #002a6e;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    border: 1px solid #0045b5;
+    border-top: none; /* Remove top border */
+    border-left: 1px solid #0045b5;
+    border-right: 1px solid #0045b5;
+    border-bottom: 1px solid #0045b5;
+    z-index: 999; /* Ensure it appears above other content */
   }
 
   .role-btn {
@@ -771,26 +820,6 @@ export default defineComponent({
     height: 2px;
     background: #ffffff;
     border-radius: 2px;
-  }
-
-  .search-container {
-    display: none;
-    width: 100%;
-    max-width: none;
-    order: 5;
-    margin: 1rem 0 0;
-    height: auto;
-  }
-  
-  .search-input {
-    background-color: #1a4db3;
-    border: 2px solid #3f6ad1;
-    backdrop-filter: none;
-  }
-  
-  .search-input:focus {
-    background-color: #2255bd;
-    border-color: #5a7ce2;
   }
 
   .mobile-visible {
