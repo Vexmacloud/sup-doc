@@ -1,34 +1,34 @@
 {
   "DefaultLayout.css": {
-    "file": "assets/DefaultLayout-4a02da9e.css",
+    "file": "assets/DefaultLayout-8e25c9a9.css",
     "src": "DefaultLayout.css"
   },
-  "_DefaultLayout-61991ee1.js": {
+  "_DefaultLayout-77e78e65.js": {
     "css": [
-      "assets/DefaultLayout-4a02da9e.css"
+      "assets/DefaultLayout-8e25c9a9.css"
     ],
     "dynamicImports": [
       "resources/js/layouts/default-layout/DefaultLayout3.vue",
       "resources/js/layouts/default-layout/DefaultLayout2.vue",
       "resources/js/layouts/default-layout/DefaultLayout1.vue"
     ],
-    "file": "assets/DefaultLayout-61991ee1.js",
+    "file": "assets/DefaultLayout-77e78e65.js",
     "imports": [
       "resources/js/main.ts",
-      "_LayoutService-447fb9fe.js"
+      "_LayoutService-ae9a4d42.js"
     ],
     "isDynamicEntry": true
   },
-  "_LayoutService-447fb9fe.js": {
-    "file": "assets/LayoutService-447fb9fe.js",
+  "_LayoutService-ae9a4d42.js": {
+    "file": "assets/LayoutService-ae9a4d42.js",
     "imports": [
       "resources/js/main.ts"
     ]
   },
-  "_Questions-614ea3df.js": {
-    "file": "assets/Questions-614ea3df.js",
+  "_Questions-880acb6e.js": {
+    "file": "assets/Questions-880acb6e.js",
     "imports": [
-      "_LayoutService-447fb9fe.js",
+      "_LayoutService-ae9a4d42.js",
       "resources/js/main.ts"
     ]
   },
@@ -249,7 +249,7 @@
     "src": "resources/js/assets/keenicons/solid/fonts/keenicons-solid.woff"
   },
   "resources/js/layouts/SystemLayout.vue": {
-    "file": "assets/SystemLayout-3512052c.js",
+    "file": "assets/SystemLayout-a6f499b5.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -257,29 +257,29 @@
     "src": "resources/js/layouts/SystemLayout.vue"
   },
   "resources/js/layouts/default-layout/DefaultLayout1.vue": {
-    "file": "assets/DefaultLayout1-32f4f473.js",
+    "file": "assets/DefaultLayout1-810b5242.js",
     "imports": [
-      "_LayoutService-447fb9fe.js",
+      "_LayoutService-ae9a4d42.js",
       "resources/js/main.ts"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/layouts/default-layout/DefaultLayout1.vue"
   },
   "resources/js/layouts/default-layout/DefaultLayout2.vue": {
-    "file": "assets/DefaultLayout2-47e4016b.js",
+    "file": "assets/DefaultLayout2-9743b77b.js",
     "imports": [
-      "_LayoutService-447fb9fe.js",
+      "_LayoutService-ae9a4d42.js",
       "resources/js/main.ts"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/layouts/default-layout/DefaultLayout2.vue"
   },
   "resources/js/layouts/default-layout/DefaultLayout3.vue": {
-    "file": "assets/DefaultLayout3-de34e60e.js",
+    "file": "assets/DefaultLayout3-d5990fa4.js",
     "imports": [
       "resources/js/main.ts",
-      "_DefaultLayout-61991ee1.js",
-      "_LayoutService-447fb9fe.js"
+      "_DefaultLayout-77e78e65.js",
+      "_LayoutService-ae9a4d42.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/layouts/default-layout/DefaultLayout3.vue"
@@ -336,8 +336,8 @@
       "assets/main-6b3daff6.css"
     ],
     "dynamicImports": [
-      "_DefaultLayout-61991ee1.js",
-      "_DefaultLayout-61991ee1.js",
+      "_DefaultLayout-77e78e65.js",
+      "_DefaultLayout-77e78e65.js",
       "resources/js/views/apps/devs/Updates.vue",
       "resources/js/views/apps/devs/Question.vue",
       "resources/js/views/apps/devs/Activation.vue",
@@ -361,7 +361,7 @@
       "resources/js/views/apps/devs/Knowledge.vue",
       "resources/js/views/apps/devs/Invoice.vue",
       "resources/js/views/apps/devs/Problems.vue",
-      "_DefaultLayout-61991ee1.js",
+      "_DefaultLayout-77e78e65.js",
       "resources/js/views/apps/devs/EmployeeIntroduction.vue",
       "resources/js/views/apps/devs/Activation1.vue",
       "resources/js/views/apps/devs/Updates1.vue",
@@ -384,7 +384,7 @@
       "resources/js/views/apps/devs/Deal1.vue",
       "resources/js/views/apps/devs/Knowledge1.vue",
       "resources/js/views/apps/devs/Problems1.vue",
-      "_DefaultLayout-61991ee1.js",
+      "_DefaultLayout-77e78e65.js",
       "resources/js/views/apps/devs/CustomerIntroduction.vue",
       "resources/js/views/apps/devs/Activation2.vue",
       "resources/js/views/apps/devs/Updates2.vue",
@@ -401,12 +401,12 @@
       "resources/js/views/crafted/authentication/Error404.vue",
       "resources/js/views/crafted/authentication/Error500.vue"
     ],
-    "file": "assets/main-f1a843c0.js",
+    "file": "assets/main-7904d17a.js",
     "isEntry": true,
     "src": "resources/js/main.ts"
   },
   "resources/js/views/apps/devs/Activation.vue": {
-    "file": "assets/Activation-0992cb89.js",
+    "file": "assets/Activation-5f6caefd.js",
     "imports": [
       "_companalysis-e473575e.js",
       "resources/js/main.ts"
@@ -415,7 +415,7 @@
     "src": "resources/js/views/apps/devs/Activation.vue"
   },
   "resources/js/views/apps/devs/Activation1.vue": {
-    "file": "assets/Activation1-9b7763a5.js",
+    "file": "assets/Activation1-c734809a.js",
     "imports": [
       "_companalysis-e473575e.js",
       "resources/js/main.ts"
@@ -424,7 +424,7 @@
     "src": "resources/js/views/apps/devs/Activation1.vue"
   },
   "resources/js/views/apps/devs/Activation2.vue": {
-    "file": "assets/Activation2-905db627.js",
+    "file": "assets/Activation2-2f559ddb.js",
     "imports": [
       "_companalysis-e473575e.js",
       "resources/js/main.ts"
@@ -440,10 +440,10 @@
     "css": [
       "assets/Attributes-cd88dc76.css"
     ],
-    "file": "assets/Attributes-8e9a281c.js",
+    "file": "assets/Attributes-e0e3bd6e.js",
     "imports": [
-      "_Questions-614ea3df.js",
-      "_LayoutService-447fb9fe.js",
+      "_Questions-880acb6e.js",
+      "_LayoutService-ae9a4d42.js",
       "resources/js/main.ts"
     ],
     "isDynamicEntry": true,
@@ -457,10 +457,10 @@
     "css": [
       "assets/Attributes1-2960c52e.css"
     ],
-    "file": "assets/Attributes1-a0c80a04.js",
+    "file": "assets/Attributes1-10997284.js",
     "imports": [
-      "_Questions-614ea3df.js",
-      "_LayoutService-447fb9fe.js",
+      "_Questions-880acb6e.js",
+      "_LayoutService-ae9a4d42.js",
       "resources/js/main.ts"
     ],
     "isDynamicEntry": true,
@@ -470,7 +470,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Checkout-852aec35.js",
+    "file": "assets/Checkout-d1750c7d.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -481,7 +481,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Companysetup-fa2ca373.js",
+    "file": "assets/Companysetup-919bc21a.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -496,7 +496,7 @@
     "css": [
       "assets/Customer-18d048ab.css"
     ],
-    "file": "assets/Customer-fd143e05.js",
+    "file": "assets/Customer-ea87b251.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -507,7 +507,7 @@
     "css": [
       "assets/style1-1fe17b63.css"
     ],
-    "file": "assets/CustomerIntroduction-c8b7d2a0.js",
+    "file": "assets/CustomerIntroduction-ff183b6f.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -518,7 +518,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Deal-b6a5de4f.js",
+    "file": "assets/Deal-c26c18a4.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -529,7 +529,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Deal1-f11edae6.js",
+    "file": "assets/Deal1-2b580dc5.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -537,7 +537,7 @@
     "src": "resources/js/views/apps/devs/Deal1.vue"
   },
   "resources/js/views/apps/devs/Deal2.vue": {
-    "file": "assets/Deal2-6fd59ee1.js",
+    "file": "assets/Deal2-5bc41f40.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -545,7 +545,7 @@
     "src": "resources/js/views/apps/devs/Deal2.vue"
   },
   "resources/js/views/apps/devs/DigitalInventory.vue": {
-    "file": "assets/DigitalInventory-82824af4.js",
+    "file": "assets/DigitalInventory-278b1336.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -556,7 +556,7 @@
     "css": [
       "assets/style1-1fe17b63.css"
     ],
-    "file": "assets/EmployeeIntroduction-914f9bb8.js",
+    "file": "assets/EmployeeIntroduction-e017d611.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -567,7 +567,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Inquiry-72e3a559.js",
+    "file": "assets/Inquiry-d06d1165.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -578,7 +578,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Inquiry1-b7b1e0f3.js",
+    "file": "assets/Inquiry1-1c90638d.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -589,7 +589,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Inquiry2-7be6e30e.js",
+    "file": "assets/Inquiry2-e603a2d6.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -600,7 +600,7 @@
     "css": [
       "assets/style1-1fe17b63.css"
     ],
-    "file": "assets/Introduction-19e37824.js",
+    "file": "assets/Introduction-afec5f38.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -611,7 +611,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Invoice-1bd0d869.js",
+    "file": "assets/Invoice-bb6f62eb.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -622,7 +622,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Invoice1-481ece8b.js",
+    "file": "assets/Invoice1-1f42f3f6.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -633,7 +633,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/InwardQc-9965dbe6.js",
+    "file": "assets/InwardQc-b13326ba.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -644,7 +644,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/InwardQc1-aa36269d.js",
+    "file": "assets/InwardQc1-e74e5b65.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -655,7 +655,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/JobCard-e7e66539.js",
+    "file": "assets/JobCard-96472fd5.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -666,7 +666,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/JobCard1-28d8caf4.js",
+    "file": "assets/JobCard1-31d9eff0.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -677,7 +677,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Knowledge-3141e397.js",
+    "file": "assets/Knowledge-aa0bba8e.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -688,7 +688,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Knowledge1-1e114ebc.js",
+    "file": "assets/Knowledge1-78be76cc.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -696,7 +696,7 @@
     "src": "resources/js/views/apps/devs/Knowledge1.vue"
   },
   "resources/js/views/apps/devs/Knowledge2.vue": {
-    "file": "assets/Knowledge2-7a7f7113.js",
+    "file": "assets/Knowledge2-117afd1f.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -707,7 +707,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Machine-3f5b8f66.js",
+    "file": "assets/Machine-bf3ce940.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -718,7 +718,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Machine1-0b625cc6.js",
+    "file": "assets/Machine1-1c988de5.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -729,7 +729,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Operations-52d08f7b.js",
+    "file": "assets/Operations-30dee09b.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -740,7 +740,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Operations1-1c508fc0.js",
+    "file": "assets/Operations1-0ae21404.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -751,7 +751,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Order-4ee69da0.js",
+    "file": "assets/Order-ff669608.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -762,7 +762,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Order1-4e7358cd.js",
+    "file": "assets/Order1-552d5383.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -773,7 +773,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Order2-0e06af97.js",
+    "file": "assets/Order2-ff839051.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -781,7 +781,7 @@
     "src": "resources/js/views/apps/devs/Order2.vue"
   },
   "resources/js/views/apps/devs/OrderBatchPlan.vue": {
-    "file": "assets/OrderBatchPlan-117d0f24.js",
+    "file": "assets/OrderBatchPlan-2ce01ae0.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -789,7 +789,7 @@
     "src": "resources/js/views/apps/devs/OrderBatchPlan.vue"
   },
   "resources/js/views/apps/devs/OrderBatchPlan1.vue": {
-    "file": "assets/OrderBatchPlan1-e7b5ef2b.js",
+    "file": "assets/OrderBatchPlan1-d06ab65e.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -804,10 +804,10 @@
     "css": [
       "assets/Problems-7ddee981.css"
     ],
-    "file": "assets/Problems-1385d8d0.js",
+    "file": "assets/Problems-d11862f6.js",
     "imports": [
-      "_Questions-614ea3df.js",
-      "_LayoutService-447fb9fe.js",
+      "_Questions-880acb6e.js",
+      "_LayoutService-ae9a4d42.js",
       "resources/js/main.ts"
     ],
     "isDynamicEntry": true,
@@ -817,7 +817,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Problems1-5d90c724.js",
+    "file": "assets/Problems1-a91f9727.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -828,7 +828,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Problems2-f91510de.js",
+    "file": "assets/Problems2-f67dc8ca.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -839,7 +839,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Production-5e67cf92.js",
+    "file": "assets/Production-ff64d36a.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -850,7 +850,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Production1-d89d3c34.js",
+    "file": "assets/Production1-4504fe96.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -865,10 +865,10 @@
     "css": [
       "assets/PurchaseOrd-b6b99011.css"
     ],
-    "file": "assets/PurchaseOrd-8c266847.js",
+    "file": "assets/PurchaseOrd-75ebc5d9.js",
     "imports": [
-      "_Questions-614ea3df.js",
-      "_LayoutService-447fb9fe.js",
+      "_Questions-880acb6e.js",
+      "_LayoutService-ae9a4d42.js",
       "resources/js/main.ts"
     ],
     "isDynamicEntry": true,
@@ -882,10 +882,10 @@
     "css": [
       "assets/PurchaseOrd1-228dd460.css"
     ],
-    "file": "assets/PurchaseOrd1-f2727a93.js",
+    "file": "assets/PurchaseOrd1-63111104.js",
     "imports": [
-      "_Questions-614ea3df.js",
-      "_LayoutService-447fb9fe.js",
+      "_Questions-880acb6e.js",
+      "_LayoutService-ae9a4d42.js",
       "resources/js/main.ts"
     ],
     "isDynamicEntry": true,
@@ -895,7 +895,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/PurchaseReq-3c2867f4.js",
+    "file": "assets/PurchaseReq-32cebad5.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -906,7 +906,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/PurchaseReq1-6a32646c.js",
+    "file": "assets/PurchaseReq1-59fb990a.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -917,7 +917,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/QualityCheck-6c280d40.js",
+    "file": "assets/QualityCheck-db2e6c6b.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -928,7 +928,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/QualityCheck1-f1d9e3b2.js",
+    "file": "assets/QualityCheck1-20fb9eff.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -936,9 +936,9 @@
     "src": "resources/js/views/apps/devs/QualityCheck1.vue"
   },
   "resources/js/views/apps/devs/Question.vue": {
-    "file": "assets/Question-1336f4d2.js",
+    "file": "assets/Question-5c0b8c2a.js",
     "imports": [
-      "_LayoutService-447fb9fe.js",
+      "_LayoutService-ae9a4d42.js",
       "resources/js/main.ts"
     ],
     "isDynamicEntry": true,
@@ -948,7 +948,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Quotation-78fbbcc0.js",
+    "file": "assets/Quotation-bdc9827c.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -959,7 +959,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Quotation1-47c12e44.js",
+    "file": "assets/Quotation1-2ee15128.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -970,7 +970,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Quotation2-9791ed35.js",
+    "file": "assets/Quotation2-4e599ebc.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -981,7 +981,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Updates-51029083.js",
+    "file": "assets/Updates-3aeb1ec0.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -992,7 +992,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Updates1-29097349.js",
+    "file": "assets/Updates1-fb8d8b69.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -1003,7 +1003,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Updates2-f0dbe972.js",
+    "file": "assets/Updates2-65acee76.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -1014,7 +1014,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Workflow-3b9baac3.js",
+    "file": "assets/Workflow-43f2031d.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -1025,7 +1025,7 @@
     "css": [
       "assets/style-dfc7fc1f.css"
     ],
-    "file": "assets/Workflow1-fe9b7439.js",
+    "file": "assets/Workflow1-183bf1d6.js",
     "imports": [
       "resources/js/main.ts"
     ],
@@ -1033,18 +1033,18 @@
     "src": "resources/js/views/apps/devs/Workflow1.vue"
   },
   "resources/js/views/crafted/authentication/Error404.vue": {
-    "file": "assets/Error404-0834bfb9.js",
+    "file": "assets/Error404-2dbfaf23.js",
     "imports": [
-      "_LayoutService-447fb9fe.js",
+      "_LayoutService-ae9a4d42.js",
       "resources/js/main.ts"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/views/crafted/authentication/Error404.vue"
   },
   "resources/js/views/crafted/authentication/Error500.vue": {
-    "file": "assets/Error500-f8ffec9e.js",
+    "file": "assets/Error500-95cdc760.js",
     "imports": [
-      "_LayoutService-447fb9fe.js",
+      "_LayoutService-ae9a4d42.js",
       "resources/js/main.ts"
     ],
     "isDynamicEntry": true,
