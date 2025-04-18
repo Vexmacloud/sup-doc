@@ -84,7 +84,7 @@
   border-radius: 2px;
 }
 
-/* Content Grid */
+/* Content Grid - Revised to ensure true side-by-side layout */
 .content-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -93,10 +93,20 @@
   position: relative;
 }
 
-/* Feature Sections */
+/* Image Showcase - Now first in order */
+.image-showcase {
+  display: flex;
+  flex-direction: column;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* Feature Sections - Now second in order but at same row level */
 .feature-sections {
   display: flex;
   flex-direction: column;
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .sections-container {
@@ -277,12 +287,6 @@ summary {
   font-size: 14px;
   color: var(--tip-text);
   line-height: 1.5;
-}
-
-/* Image Showcase */
-.image-showcase {
-  display: flex;
-  flex-direction: column;
 }
 
 .image-carousel {
@@ -504,6 +508,22 @@ summary {
   margin-right: auto;
 }
 
+/* Added breathing animation for CTA button */
+@keyframes breathing {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(38, 103, 255, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(38, 103, 255, 0.5);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(38, 103, 255, 0.3);
+  }
+}
+
 .cta-button {
   background: linear-gradient(135deg, #2667FF, #3498db);
   color: white;
@@ -515,11 +535,13 @@ summary {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(38, 103, 255, 0.3);
+  animation: breathing 3s infinite ease-in-out; /* Added breathing animation */
 }
 
 .cta-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 16px rgba(38, 103, 255, 0.4);
+  animation: none; /* Stop the breathing animation on hover */
 }
 
 /* Scrollbar styling */
@@ -589,6 +611,13 @@ summary {
   .image-showcase {
     order: -1;
     margin-bottom: 30px;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  
+  .feature-sections {
+    grid-column: 1;
+    grid-row: 2;
   }
   
   .video-container {
@@ -660,6 +689,11 @@ summary {
 
   /* Disable arrow animation for reduced motion */
   .topic-section:not([open]) .topic-title::after {
+    animation: none;
+  }
+
+  /* Disable breathing animation for reduced motion */
+  .cta-button {
     animation: none;
   }
 }

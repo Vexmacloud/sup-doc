@@ -14,7 +14,7 @@
             v-for="(section, index) in sections" 
             :key="index" 
             class="topic-section" 
-            :open="index === activeSection"
+            :close="index === activeSection"
             @toggle="handleToggle(index, $event)"
           >
             <summary class="topic-title">
