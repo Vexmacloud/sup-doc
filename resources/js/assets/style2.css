@@ -600,6 +600,12 @@ html, body {
   box-shadow: 0 15px 40px rgba(11, 20, 96, 0.12);
 }
 
+.rating {
+  display: inline-block;
+  font-size: 2px;
+  color: rgb(216, 162, 0); /* You can change the color as needed */
+}
+
 .quote-mark {
   position: absolute;
   top: 40px;

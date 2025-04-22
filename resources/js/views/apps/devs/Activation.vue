@@ -175,24 +175,26 @@ F<template>
       <div class="testimonials-grid">
         <div class="testimonial-card">
           <div class="quote-mark">"</div>
-          <p class="testimonial-text">This platform has transformed how we manage our workflow. The employee portal makes task assignment incredibly efficient.</p>
+          <p class="testimonial-text">Their platform's agility and paperless job cards streamlined our processes. Highly recommend Vexma Cloud for its innovative solutions and exceptional support team.</p>
           <div class="testimonial-author">
             <div class="author-avatar">PB</div>
             <div class="author-info">
               <div class="author-name">Pathik bhatt</div>
               <div class="author-role">Project Manager</div>
+              <div class="rating">★★★★★</div>
             </div>
           </div>
         </div>
         
         <div class="testimonial-card">
           <div class="quote-mark">"</div>
-          <p class="testimonial-text">The customer portal has improved our client satisfaction rates by 40%. They love the transparency and easy access to information.</p>
+          <p class="testimonial-text">Vexma's comprehensive part tracking and customer dashboard enhanced our efficiency. Outstanding experience with seamless integration and real-time analytics!</p>
           <div class="testimonial-author">
             <div class="author-avatar">U</div>
             <div class="author-info">
               <div class="author-name">Udith</div>
               <div class="author-role">Customer Success</div>
+              <div class="rating">★★★★☆</div>
             </div>
           </div>
         </div>
