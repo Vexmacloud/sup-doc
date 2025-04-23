@@ -192,7 +192,7 @@
           <div class="testimonial-author">
             <div class="author-avatar">U</div>
             <div class="author-info">
-              <div class="author-name">Udith</div>
+              <div class="author-name">Udith PU</div>
               <div class="author-role">Customer Success</div>
               <div class="rating">★★★★☆</div>
             </div>
