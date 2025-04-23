@@ -160,7 +160,7 @@
           <div class="menu-item pt-5">
             <div class="menu-content pb-2">
               <span class="menu-section text-muted text-uppercase fs-7 fw-bold"
-                >MES</span
+                >Manufacturing</span
               >
             </div>
           </div>
