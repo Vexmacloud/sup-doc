@@ -188,7 +188,7 @@
         
         <div class="testimonial-card">
           <div class="quote-mark">"</div>
-          <p class="testimonial-text">Vexma's comprehensive part tracking and customer dashboard enhanced our efficiency. Outstanding experience with seamless integration and realtime analytics!</p>
+          <p class="testimonial-text">Vexma's comprehensive part tracking and customer dashboard enhanced our efficiency. Outstanding experience with seamless integration and real-time analytics!</p>
           <div class="testimonial-author">
             <div class="author-avatar">U</div>
             <div class="author-info">
