@@ -231,7 +231,7 @@ html, body {
   color: #333;
   font-size: 20px;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
@@ -417,7 +417,7 @@ html, body {
   padding: 6px;                /* Reduced padding */
   border-radius: 8px;          /* Reduced border radius */
   border-left: 3px solid #FFB300; /* Reduced border thickness */
-  margin-top: auto;
+  margin-top: -29px;
   box-shadow: 0 2px 8px rgba(255, 179, 0, 0.1);  /* Slightly smaller shadow */
   transition: all 0.3s ease;
 }
@@ -428,8 +428,9 @@ html, body {
 }
 
 .tip-icon {
-  font-size: 14px;            /* Reduced icon size */
+  font-size: 10px;            /* Reduced icon size */
   margin-right: 10px;         /* Reduced margin */
+  margin-left:5px;
 }
 
 .tip-content {
