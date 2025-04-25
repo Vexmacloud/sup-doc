@@ -523,7 +523,7 @@ html, body {
 }
 
 .top-arrow {
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease;
 }
 
 .scroll-top-button:hover .top-arrow {

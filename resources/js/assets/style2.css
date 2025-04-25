@@ -597,7 +597,7 @@ html, body {
 
 .testimonial-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(11, 20, 96, 0.12);
+  box-shadow: 0 15px 41px rgba(11, 20, 96, 0.12);
 }
 
 .rating {
