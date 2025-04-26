@@ -1,3 +1,4 @@
+/* Base Variables */
 :root {
   /* Font Families */
   --font-quicksand: 'Quicksand', sans-serif;
@@ -12,7 +13,7 @@
   --color-white: #fafafa;
   --color-black: #000000;
   --color-off-white: #F6F9FB;
-  --color-primary-5: rgb(175, 199, 255);
+  --color-primary-5: rgba(38, 103, 255, 0.5);
   --color-primary-7: rgba(38, 103, 255, 0.07);
   --color-primary-10: rgba(38, 103, 255, 0.1);
   --color-secondary-10: rgba(11, 20, 96, 0.1);
@@ -25,10 +26,10 @@
   /* Card and Element Background */
   --card-bg: white;
   --element-bg: white;
-  --testimonial-bg: rgba(21, 119, 124, 0.178);
+  --testimonial-bg: rgba(21, 119, 124, 0.08);
   --cta-bg: linear-gradient(135deg, rgba(38, 103, 255, 0.1), rgba(46, 204, 113, 0.1));
   --pulse-bg: rgba(38, 103, 255, 0.05);
-  --quote-color: rgba(0, 17, 80, 0.498);
+  --quote-color: rgba(0, 17, 80, 0.2);
   --tip-bg: rgba(46, 204, 113, 0.1);
   --indicator-bg: rgba(38, 103, 255, 0.2);
   --divider-bg: rgba(92, 97, 133, 0.2);
@@ -38,6 +39,7 @@
   --page-bg: #ffffff;
 }
 
+/* Dark Theme Support */
 @media (prefers-color-scheme: dark) {
   :root {
     /* Dark Theme Colors */
@@ -48,7 +50,7 @@
     --color-white: #fafafa;
     --color-black: #000000;
     --color-off-white: #1A1C2E;
-    --color-primary-5: rgb(76, 126, 255, 0.5);
+    --color-primary-5: rgba(76, 126, 255, 0.5);
     --color-primary-7: rgba(76, 126, 255, 0.07);
     --color-primary-10: rgba(76, 126, 255, 0.1);
     --color-secondary-10: rgba(160, 180, 255, 0.1);
@@ -75,106 +77,161 @@
   }
 }
 
-/* Add styling for html and body to ensure full dark background */
+/* Global Styles */
 html, body {
   margin: 0;
   padding: 0;
   background-color: var(--page-bg);
   min-height: 100vh;
-  transition: background-color 0.3s ease;
+  font-family: var(--font-nunito);
+  color: var(--color-body);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  scroll-behavior: smooth;
 }
 
 /* Main Container */
 .activation-page {
   max-width: 1200px;
-  margin: 40px auto;
-  margin-top: 20px;
-  margin-left: 180px; /* Added margin-left for desktop/PC */
-  padding: 30px;
+  margin: 0 auto;
+  margin-left: 110px;
+  padding: 3rem 2rem;
   background: var(--color-off-white);
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  font-family: var(--font-nunito);
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
   color: var(--color-body);
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
 }
 
 /* Header Section */
 .activation-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 4rem;
   position: relative;
+  padding: 1rem;
 }
 
 .main-heading {
   font-family: var(--font-quicksand);
-  font-size: 32px;
+  font-size: 2.5rem;
   color: var(--color-secondary);
-  margin: 0 0 10px;
+  margin: 0 0 1rem;
   font-weight: 700;
   animation: fadeInDown 0.8s ease-out;
   transition: color 0.3s ease;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
 }
 
 .subtitle {
-  font-size: 18px;
+  font-size: 1.25rem;
   color: var(--color-body);
-  margin-bottom: 15px;
+  margin-bottom: 1.5rem;
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
   animation: fadeInUp 0.8s ease-out;
   transition: color 0.3s ease;
+  line-height: 1.6;
 }
 
 .accent-line {
   height: 4px;
   width: 80px;
   background: linear-gradient(to right, var(--color-primary), var(--color-tertiary));
-  margin: 15px auto;
+  margin: 1.5rem auto;
   border-radius: 2px;
   animation: expandWidth 1s ease-out;
 }
 
-.hero-image-container {
-  margin-top: 30px;
+/* CTA Section */
+.cta-content {
+  padding: 2.5rem;
+  background: var(--cta-bg);
   border-radius: 16px;
-  margin-left: 10px;
-  overflow: hidden;
-  box-shadow: 0 15px 30px rgba(11, 20, 96, 0.15);
+  margin-top: 2rem;
   position: relative;
-  animation: fadeInUp 1s ease-out;
-  transition: transform 0.5s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(11, 20, 96, 0.08);
+  transition: all 0.3s ease;
+  text-align: center;
+  animation: fadeIn 1s ease;
 }
 
-.hero-image-container:hover {
+.cta-content:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(11, 20, 96, 0.2);
+  box-shadow: 0 15px 35px rgba(11, 20, 96, 0.12);
 }
 
-.hero-image {
-  width: 100%;
-  max-width: 900px;
-  display: block;
-  margin-left: 50px;
-  transition: transform 0.5s ease;
+.cta-title {
+  font-family: var(--font-quicksand);
+  font-size: 1.75rem;
+  color: var(--color-secondary);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
 }
 
-.hero-image-container:hover .hero-image {
-  transform: scale(1.02);
+.cta-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-body);
+  margin-bottom: 1.5rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: color 0.3s ease;
 }
 
-/* Activation Steps Section */
+.cta-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.cta-button {
+  background: linear-gradient(135deg, #2667FF, #1a4fc7);
+  color: white;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(38, 103, 255, 0.3);
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  border: none;
+}
+
+.btn-icon {
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(38, 103, 255, 0.4);
+  background: linear-gradient(135deg, #3074ff, #2056d9);
+}
+
+.cta-button:hover .btn-icon {
+  transform: translateX(5px);
+}
+
+/* Activation Steps */
 .activation-steps {
-  margin: 80px 0;
+  margin: 5rem 0;
   position: relative;
 }
 
 .section-heading {
   font-family: var(--font-quicksand);
-  font-size: 26px;
+  font-size: 1.75rem;
   color: var(--color-secondary);
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -184,31 +241,33 @@ html, body {
 
 .section-icon {
   margin-right: 12px;
-  font-size: 28px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .steps-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: 2.5rem;
   align-items: center;
 }
 
 .steps-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 15px;
+  gap: 1rem;
 }
 
 .step-card {
   background: var(--card-bg);
   border-radius: 12px;
-  padding: 20px;
+  padding: 1.5rem;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: flex-start;
   transition: all 0.3s ease;
   cursor: pointer;
+  border-left: 0px solid transparent;
 }
 
 .step-card:hover {
@@ -227,8 +286,8 @@ html, body {
   color: var(--color-primary);
   border-radius: 50%;
   font-weight: bold;
-  font-size: 18px;
-  margin-right: 15px;
+  font-size: 1.125rem;
+  margin-right: 1rem;
   flex-shrink: 0;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -239,15 +298,15 @@ html, body {
 
 .step-title {
   font-family: var(--font-quicksand);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 600;
   color: var(--color-secondary);
-  margin: 0 0 8px;
+  margin: 0 0 0.5rem;
   transition: color 0.3s ease;
 }
 
 .step-description {
-  font-size: 15px;
+  font-size: 0.95rem;
   line-height: 1.5;
   margin: 0;
   color: var(--color-body);
@@ -264,6 +323,7 @@ html, body {
 
 .steps-image-container:hover {
   transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(11, 20, 96, 0.2);
 }
 
 .steps-image {
@@ -282,7 +342,7 @@ html, body {
   left: 0;
   right: 0;
   background: linear-gradient(transparent, rgba(11, 20, 96, 0.8));
-  padding: 20px;
+  padding: 1.5rem;
   transform: translateY(100%);
   transition: transform 0.3s ease;
 }
@@ -298,29 +358,34 @@ html, body {
 }
 
 .overlay-icon {
-  font-size: 22px;
-  margin-right: 10px;
+  font-size: 1.5rem;
+  margin-right: 0.75rem;
 }
 
 .tip-box {
   display: flex;
   background-color: var(--tip-bg);
   border-left: 4px solid var(--color-tertiary);
-  padding: 20px;
+  padding: 1.5rem;
   border-radius: 12px;
-  margin-top: 40px;
+  margin-top: 2.5rem;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.tip-box:hover {
+  box-shadow: 0 10px 20px rgba(46, 204, 113, 0.15);
+  transform: translateY(-3px);
 }
 
 .tip-icon {
-  font-size: 24px;
-  margin-right: 15px;
+  font-size: 1.5rem;
+  margin-right: 1rem;
   flex-shrink: 0;
 }
 
 .tip-content {
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--color-body);
   line-height: 1.6;
   transition: color 0.3s ease;
@@ -328,13 +393,13 @@ html, body {
 
 /* Features Carousel */
 .features-section {
-  margin: 80px 0;
+  margin: 5rem 0;
 }
 
 .section-divider {
   display: flex;
   align-items: center;
-  margin: 30px 0;
+  margin: 2rem 0;
 }
 
 .divider-line {
@@ -345,8 +410,8 @@ html, body {
 }
 
 .divider-text {
-  padding: 0 20px;
-  font-size: 22px;
+  padding: 0 1.5rem;
+  font-size: 1.5rem;
   font-weight: 600;
   font-family: var(--font-quicksand);
   color: var(--color-secondary);
@@ -355,12 +420,12 @@ html, body {
 
 .carousel-container {
   position: relative;
-  padding: 20px 0 100px; /* Increased from 60px to 100px to provide more space */
+  padding: 1.5rem 0 6rem;
 }
 
 .carousel-slides {
   position: relative;
-  min-height: 200px;
+  min-height: 240px;
 }
 
 .carousel-slide {
@@ -382,7 +447,7 @@ html, body {
 .feature-card {
   background: var(--card-bg);
   border-radius: 16px;
-  padding: 30px;
+  padding: 2rem;
   text-align: center;
   box-shadow: 0 10px 30px rgba(11, 20, 96, 0.1);
   max-width: 800px;
@@ -396,34 +461,39 @@ html, body {
 }
 
 .feature-icon {
-  font-size: 40px;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
 }
 
 .feature-title {
   font-family: var(--font-quicksand);
-  font-size: 22px;
+  font-size: 1.5rem;
   color: var(--color-secondary);
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
   transition: color 0.3s ease;
 }
 
 .feature-description {
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.6;
   color: var(--color-body);
   transition: color 0.3s ease;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .carousel-controls {
   position: absolute;
-  bottom: 30px; /* Increased from 10px to 30px */
+  bottom: 2rem;
   left: 0;
   right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px; /* Added gap between indicators and arrows */
+  gap: 1.5rem;
 }
 
 .carousel-indicators {
@@ -449,12 +519,12 @@ html, body {
 .carousel-arrows {
   display: flex;
   justify-content: space-between;
-  width: 140px; /* Increased from 100px to 140px for better spacing */
+  width: 140px;
 }
 
 .arrow-btn {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: var(--card-bg);
   border: 1px solid var(--arrow-border);
@@ -464,6 +534,7 @@ html, body {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 1rem;
 }
 
 .arrow-btn:hover {
@@ -472,124 +543,22 @@ html, body {
   border-color: var(--color-primary);
 }
 
-/* CTA Section */
-.cta-section {
-  text-align: center;
-  background: var(--cta-bg);
-  border-radius: 16px;
-  padding: 60px 40px;
-  margin-top: 80px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 15px 30px rgba(11, 20, 96, 0.1);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-}
-
-.cta-content {
-  position: relative;
-  z-index: 2;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.cta-title {
-  font-family: var(--font-quicksand);
-  font-size: 28px;
-  color: var(--color-secondary);
-  margin-bottom: 20px;
-  animation: fadeInUp 0.8s ease-out;
-  transition: color 0.3s ease;
-}
-
-.cta-description {
-  font-size: 18px;
-  line-height: 1.6;
-  color: var(--color-body);
-  margin-bottom: 30px;
-  animation: fadeInUp 1s ease-out;
-  transition: color 0.3s ease;
-}
-
-.cta-button-container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.cta-button {
-  background: linear-gradient(135deg, #3498db, #3498db);
-  color: white;
-  border-color: black;
-  padding: 15px 40px;
-  font-size: 18px;
-  font-weight: 600;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
-  display: inline-flex;
-  align-items: center;
-  animation: fadeInUp 1.2s ease-out;
-  text-decoration: none;
-}
-
-.btn-icon {
-  margin-left: 10px;
-  transition: transform 0.3s ease;
-}
-
-.cta-button:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(38, 103, 255, 0.4);
-}
-
-.cta-button:hover .btn-icon {
-  transform: translateX(5px);
-}
-
-.cta-animation {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-}
-
-.pulse-circle {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: var(--pulse-bg);
-  transform: translate(-50%, -50%);
-  animation: pulse 3s infinite;
-  transition: background-color 0.3s ease;
-}
-
-.delay-1 {
-  animation-delay: 1s;
-}
-
-.delay-2 {
-  animation-delay: 2s;
-}
-
 /* Testimonials Section */
 .testimonials-section {
-  margin: 80px 0 40px;
+  margin: 5rem 0 3rem;
 }
 
 .testimonials-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  margin-top: 40px;
+  gap: 2rem;
+  margin-top: 2.5rem;
 }
 
 .testimonial-card {
   background: var(--testimonial-bg);
   border-radius: 16px;
-  padding: 30px;
+  padding: 2rem;
   box-shadow: 0 10px 30px rgba(11, 20, 96, 0.08);
   position: relative;
   transition: all 0.3s ease;
@@ -597,40 +566,37 @@ html, body {
 
 .testimonial-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 41px rgba(11, 20, 96, 0.12);
-}
-
-.rating {
-  display: inline-block;
-  font-size: 21px;
-  color: rgb(215, 162, 0); /* You can change the color as needed */
+  box-shadow: 0 15px 40px rgba(11, 20, 96, 0.12);
 }
 
 .quote-mark {
   position: absolute;
-  top: 40px;
-  left: 20px;
-  font-size: 80px;
+  top: 1.5rem;
+  left: 1.5rem;
+  font-size: 5rem;
   line-height: 0;
   color: var(--quote-color);
   font-family: Georgia, serif;
   transition: color 0.3s ease;
+  opacity: 0.6;
 }
 
 .testimonial-text {
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.7;
   color: var(--color-body);
-  margin: 0 0 20px;
+  margin: 0 0 1.5rem;
   position: relative;
   z-index: 1;
-  padding-top: 10px;
+  padding-top: 1.5rem;
+  padding-left: 1rem;
   transition: color 0.3s ease;
 }
 
 .testimonial-author {
   display: flex;
   align-items: center;
+  margin-top: 1rem;
 }
 
 .author-avatar {
@@ -638,26 +604,38 @@ html, body {
   height: 50px;
   border-radius: 50%;
   background: var(--color-primary);
-  color: rgb(12, 8, 37);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  margin-right: 15px;
+  margin-right: 1rem;
   transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 1rem;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
 }
 
 .author-name {
   font-weight: 600;
   color: var(--color-secondary);
-  font-size: 16px;
+  font-size: 1rem;
   transition: color 0.3s ease;
 }
 
 .author-role {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-body);
   transition: color 0.3s ease;
+  margin-bottom: 0.25rem;
+}
+
+.rating {
+  color: #FFD700;
+  font-size: 1rem;
 }
 
 /* Animations */
@@ -719,26 +697,21 @@ html, body {
 /* Responsive Styles */
 @media (max-width: 1200px) {
   .activation-page {
-    margin-left: auto; /* Reset the left margin on smaller screens */
+    margin-left: auto;
     margin-right: auto;
-    padding: 20px;
-    width: 90%; /* Added to ensure it takes most of the screen width */
-  }
-  
-  .hero-image {
-    margin-left: 0; /* Reset the left margin on smaller screens */
-    max-width: 100%; /* Ensure image is responsive */
+    padding: 2rem 1.5rem;
+    width: 90%;
   }
 }
 
 @media (max-width: 992px) {
   .activation-page {
-    width: 95%; /* Further increase width on smaller screens */
+    width: 95%;
   }
   
   .steps-container {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 2.5rem;
   }
   
   .steps-image-container {
@@ -749,53 +722,134 @@ html, body {
     grid-template-columns: 1fr;
   }
   
-  .cta-button-container {
-    flex-direction: column;
-    align-items: center;
+  .main-heading {
+    font-size: 2rem;
+  }
+  
+  .cta-title {
+    font-size: 1.5rem;
+  }
+  
+  .cta-description {
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 768px) {
   .activation-page {
-    width: 100%; /* Full width on mobile */
-    margin: 10px auto; /* Reduced margin */
-    padding: 15px; /* Reduced padding */
+    width: 100%;
+    margin: 0.5rem auto;
+    padding: 1.5rem 1rem;
+    border-radius: 12px;
   }
   
   .main-heading {
-    font-size: 26px;
+    font-size: 1.75rem;
   }
   
   .subtitle {
-    font-size: 16px;
+    font-size: 1rem;
   }
   
   .section-heading {
-    font-size: 22px;
+    font-size: 1.5rem;
+  }
+  
+  .step-card {
+    padding: 1rem;
+  }
+  
+  .step-number {
+    width: 32px;
+    height: 32px;
+    font-size: 0.875rem;
   }
   
   .step-title {
-    font-size: 16px;
+    font-size: 1rem;
   }
   
   .step-description {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   
-  .cta-section {
-    padding: 40px 20px;
-  }
-  
-  .cta-title {
-    font-size: 24px;
-  }
-  
-  .cta-description {
-    font-size: 16px;
+  .cta-content {
+    padding: 1.5rem 1rem;
   }
   
   .cta-button {
-    padding: 12px 30px;
-    font-size: 16px;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
+  
+  .feature-title {
+    font-size: 1.25rem;
+  }
+  
+  .feature-description {
+    font-size: 0.875rem;
+  }
+  
+  .testimonial-card {
+    padding: 1.5rem;
+  }
+  
+  .quote-mark {
+    font-size: 3.5rem;
+  }
+  
+  .testimonial-text {
+    font-size: 0.875rem;
+  }
+  
+  .author-avatar {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .activation-page {
+    padding: 1rem 0.75rem;
+  }
+  
+  .main-heading {
+    font-size: 1.5rem;
+  }
+  
+  .accent-line {
+    width: 60px;
+  }
+  
+  .section-heading {
+    font-size: 1.25rem;
+  }
+  
+  .divider-text {
+    font-size: 1.25rem;
+    padding: 0 1rem;
+  }
+  
+  .step-card {
+    flex-direction: column;
+  }
+  
+  .step-number {
+    margin-bottom: 0.75rem;
+    margin-right: 0;
+  }
+  
+  .cta-button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .carousel-arrows {
+    width: 100px;
+  }
+  
+  .arrow-btn {
+    width: 32px;
+    height: 32px;
   }
 }
