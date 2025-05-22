@@ -177,7 +177,7 @@ const routes: Array<RouteRecordRaw> = [
             path: "introduction",
             name: "employee-devs-introduction",
             component: () => import("@/views/apps/devs/EmployeeIntroduction.vue"),
-            meta: { pageTitle: "Company Setup" },
+            meta: { pageTitle: "Introduction" },
           },
           {
             path: "activation",

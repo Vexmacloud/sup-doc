@@ -1,4 +1,4 @@
-F<template>
+<template>
   <div 
     class="activation-page" 
     style="font-family: var(--font-nunito); background-color: var(--color-off-white); color: var(--color-body); padding: 3rem 2rem; margin-left: 110px;"
@@ -8,12 +8,19 @@ F<template>
       <h1 class="main-heading">Choose Your Plan & Activate Your Account</h1>
       <p class="subtitle">Welcome to our platform! Select one of our flexible subscription plans below.</p>
       <div class="accent-line"></div>
-      <div class="hero-image-container">
-        <img
-          src="@/../../public/images/pricing.webp"
-          alt="Activation Banner"
-          class="hero-image"
-        />
+      
+      <!-- CTA Section moved here to replace the image -->
+      <div class="cta-content">
+        <h2 class="cta-title">Ready to Get Started?</h2>
+        <p class="cta-description">
+          Create your Admin account now and take control of your entire workflow.
+          Whether you're a small team or a growing enterprise, our platform scales with your business.
+        </p>
+        <div class="cta-button-container">
+          <a href="https://vexmacloud.com/pricing" target="_blank" class="cta-button">
+            View Pricing Plans <span class="btn-icon">→</span>
+          </a>
+        </div>
       </div>
     </header>
 
@@ -143,26 +150,7 @@ F<template>
       </div>
     </section>
 
-    <!-- Enhanced CTA Section -->
-    <section class="cta-section">
-      <div class="cta-content">
-        <h2 class="cta-title">Ready to Get Started?</h2>
-        <p class="cta-description">
-          Create your Admin account now and take control of your entire workflow.
-          Whether you're a small team or a growing enterprise, our platform scales with your business.
-        </p>
-        <div class="cta-button-container">
-          <a href="https://vexmacloud.com/pricing" target="_blank" class="cta-button">
-            View Pricing Plans <span class="btn-icon">→</span>
-          </a>
-        </div>
-      </div>
-      <div class="cta-animation">
-        <div class="pulse-circle"></div>
-        <div class="pulse-circle delay-1"></div>
-        <div class="pulse-circle delay-2"></div>
-      </div>
-    </section>
+    <!-- Removed the original CTA Section since it's now moved up -->
     
     <!-- Testimonials Section -->
     <section class="testimonials-section">
