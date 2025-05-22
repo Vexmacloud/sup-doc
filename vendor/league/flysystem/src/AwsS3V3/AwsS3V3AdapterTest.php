@@ -79,6 +79,15 @@ class AwsS3V3AdapterTest extends FilesystemAdapterTestCase
         self::$adapter = null;
     }
 
+    protected function setUp(): void
+    {
+        if (PHP_VERSION_ID < 80100) {
+            $this->markTestSkipped('AWS does not support this anymore.');
+        }
+
+        parent::setUp();
+    }
+
     private static function s3Client(): S3ClientInterface
     {
         if (static::$s3Client instanceof S3ClientInterface) {

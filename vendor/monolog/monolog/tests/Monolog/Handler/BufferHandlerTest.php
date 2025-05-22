@@ -11,10 +11,9 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Test\TestCase;
 use Monolog\Level;
 
-class BufferHandlerTest extends TestCase
+class BufferHandlerTest extends \Monolog\Test\MonologTestCase
 {
     private TestHandler $shutdownCheckHandler;
 
@@ -154,5 +153,25 @@ class BufferHandlerTest extends TestCase
         $this->assertTrue($test->hasWarningRecords());
         $records = $test->getRecords();
         $this->assertTrue($records[0]['extra']['foo']);
+    }
+
+    public function testSetHandler()
+    {
+        $testOriginal = new TestHandler();
+        $handler = new BufferHandler($testOriginal);
+        $handler->handle($this->getRecord(Level::Info));
+
+        $testNew = new TestHandler();
+        $handler->setHandler($testNew);
+
+        $handler->handle($this->getRecord(Level::Debug));
+
+        $handler->close();
+
+        $this->assertFalse($testOriginal->hasInfoRecords());
+        $this->assertFalse($testOriginal->hasDebugRecords());
+        $this->assertTrue($testNew->hasInfoRecords());
+        $this->assertTrue($testNew->hasDebugRecords());
+        $this->assertCount(2, $testNew->getRecords());
     }
 }

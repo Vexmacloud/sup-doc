@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,14 +16,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Existing route
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Authentication routes using AuthController
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('/authenticate', [AuthController::class, 'authenticate']);
+Route::post('/verify-token', [AuthController::class, 'verifyToken']);
+Route::post('/logout-all-devices', [AuthController::class, 'logoutAllDevices']);
 
+// Existing custom routes
 Route::get('/user-details', [ApiController::class, 'userDetails']);
 
-//Client
+// Client-related routes
 Route::post('/add-client', [ApiController::class, 'addClient']);
 Route::post('/get-client', [ApiController::class, 'getClient']);
 Route::post('/get-notification-list', [ApiController::class, 'getNotificationList']);

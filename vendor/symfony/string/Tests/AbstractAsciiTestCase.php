@@ -1044,6 +1044,7 @@ abstract class AbstractAsciiTestCase extends TestCase
             ['symfonyIsGreat', 'symfony_is_great'],
             ['symfony5IsGreat', 'symfony_5_is_great'],
             ['symfonyIsGreat', 'Symfony is great'],
+            ['SYMFONYISGREAT', 'SYMFONY_IS_GREAT'],
             ['symfonyIsAGreatFramework', 'Symfony is a great framework'],
             ['symfonyIsGREAT', '*Symfony* is GREAT!!'],
             ['SYMFONY', 'SYMFONY'],
@@ -1067,6 +1068,8 @@ abstract class AbstractAsciiTestCase extends TestCase
             ['x_y', 'x_y'],
             ['x_y', 'X_Y'],
             ['xu_yo', 'xu_yo'],
+            ['symfony_is_great', 'symfony-is-great'],
+            ['symfony_is_great', 'symfony.is.great'],
             ['symfony_is_great', 'symfonyIsGreat'],
             ['symfony5_is_great', 'symfony5IsGreat'],
             ['symfony5is_great', 'symfony5isGreat'],
@@ -1075,8 +1078,13 @@ abstract class AbstractAsciiTestCase extends TestCase
             ['symfony_is_great', 'symfonyIsGREAT'],
             ['symfony_is_really_great', 'symfonyIsREALLYGreat'],
             ['symfony', 'SYMFONY'],
-            ['symfony_is_great', 'SYMFONY IS GREAT'],
-            ['symfony_is_great', 'SYMFONY_IS_GREAT'],
+            ['symfonyisgreat', 'SYMFONY IS GREAT'],
+            ['symfonyisgreat', 'SYMFONY_IS_GREAT'],
+            ['symfony_is_great', 'symfony    is     great'],
+            ['symfonyisgreat', 'SYMFONY    IS     GREAT'],
+            ['symfonyisgreat', 'SYMFONY _ IS _ GREAT'],
+            ['symfony_isgreat', 'Symfony IS GREAT!'],
+            ['123_customer_with_special_name', '123-customer,with/special#name'],
         ];
     }
 

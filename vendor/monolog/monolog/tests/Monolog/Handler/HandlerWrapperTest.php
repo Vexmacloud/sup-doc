@@ -11,14 +11,13 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Test\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Alexey Karapetov <alexey@karapetov.com>
  */
-class HandlerWrapperTest extends TestCase
+class HandlerWrapperTest extends \Monolog\Test\MonologTestCase
 {
     private HandlerWrapper $wrapper;
 
@@ -36,6 +35,7 @@ class HandlerWrapperTest extends TestCase
         parent::tearDown();
 
         unset($this->wrapper);
+        unset($this->handler);
     }
 
     public static function trueFalseDataProvider(): array

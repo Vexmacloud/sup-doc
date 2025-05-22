@@ -14,7 +14,7 @@
             v-for="(section, index) in sections" 
             :key="index" 
             class="topic-section" 
-            :open="index === activeSection"
+            :close="index === activeSection"
             @toggle="handleToggle(index, $event)"
           >
             <summary class="topic-title">
@@ -80,10 +80,10 @@
           
           <!-- Improved navigation arrows - only for images -->
           <button class="floating-arrow floating-arrow-left" @click="previousImage()">
-            <span class="arrow-icon">❮</span>
+            <span class="arrow-icon"></span>
           </button>
           <button class="floating-arrow floating-arrow-right" @click="nextImage()">
-            <span class="arrow-icon">❯</span>
+            <span class="arrow-icon"></span>
           </button>
         </div>
       </div>
@@ -109,7 +109,7 @@
     <div class="cta-section">
       <h2 class="cta-title">Ready to Transform Your Manufacturing?</h2>
       <p class="cta-description">Join thousands of manufacturers who have optimized their operations with Vexma Cloud.</p>
-      <button class="cta-button" onclick="window.open('https://vexmacloud.com/pricing', '_blank')">Start Free Trial</button>
+      <button class="cta-button" onclick="window.open('https://vexmacloud.com/pricing', '_blank')">Start Free Trial →</button>
     </div>
   </div>
 </template>

@@ -504,9 +504,10 @@ class FilesystemTest extends TestCase
      */
     public function copying_from_and_to_the_same_location_fails(): void
     {
-        $this->expectExceptionObject(UnableToCopyFile::fromLocationTo('from.txt', 'from.txt'));
+        $this->expectExceptionObject(UnableToCopyFile::sourceAndDestinationAreTheSame('from.txt', 'from.txt'));
 
-        $this->filesystem->copy('from.txt', 'from.txt');
+        $config = [Config::OPTION_COPY_IDENTICAL_PATH => ResolveIdenticalPathConflict::FAIL];
+        $this->filesystem->copy('from.txt', 'from.txt', $config);
     }
 
     /**
@@ -516,7 +517,8 @@ class FilesystemTest extends TestCase
     {
         $this->expectExceptionObject(UnableToMoveFile::fromLocationTo('from.txt', 'from.txt'));
 
-        $this->filesystem->move('from.txt', 'from.txt');
+        $config = [Config::OPTION_MOVE_IDENTICAL_PATH => ResolveIdenticalPathConflict::FAIL];
+        $this->filesystem->move('from.txt', 'from.txt', $config);
     }
 
     /**

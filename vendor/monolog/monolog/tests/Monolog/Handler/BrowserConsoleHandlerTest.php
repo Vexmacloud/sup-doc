@@ -11,13 +11,12 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Test\TestCase;
 use Monolog\Level;
 
 /**
  * @covers Monolog\Handler\BrowserConsoleHandlerTest
  */
-class BrowserConsoleHandlerTest extends TestCase
+class BrowserConsoleHandlerTest extends \Monolog\Test\MonologTestCase
 {
     protected function setUp(): void
     {
@@ -27,7 +26,6 @@ class BrowserConsoleHandlerTest extends TestCase
     protected function generateScript()
     {
         $reflMethod = new \ReflectionMethod('Monolog\Handler\BrowserConsoleHandler', 'generateScript');
-        $reflMethod->setAccessible(true);
 
         return $reflMethod->invoke(null);
     }

@@ -13,12 +13,11 @@ namespace Monolog\Handler;
 
 use Monolog\Formatter\LineFormatter;
 use Monolog\Level;
-use Monolog\Test\TestCase;
 
 /**
  * @coversDefaultClass \Monolog\Handler\FleepHookHandler
  */
-class FleepHookHandlerTest extends TestCase
+class FleepHookHandlerTest extends \Monolog\Test\MonologTestCase
 {
     /**
      * Default token to use in tests
@@ -37,6 +36,13 @@ class FleepHookHandlerTest extends TestCase
 
         // Create instances of the handler and logger for convenience
         $this->handler = new FleepHookHandler(self::TOKEN);
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        unset($this->handler);
     }
 
     /**

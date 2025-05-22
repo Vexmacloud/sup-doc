@@ -13,6 +13,7 @@ namespace Symfony\Component\HttpFoundation\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Exception\ConflictingHeadersException;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\Exception\SuspiciousOperationException;
@@ -305,9 +306,34 @@ class RequestTest extends TestCase
         $this->assertTrue($request->isSecure());
 
         // Fragment should not be included in the URI
-        $request = Request::create('http://test.com/foo#bar');
-        $request->server->set('REQUEST_URI', 'http://test.com/foo#bar');
+        $request = Request::create('http://test.com/foo#bar\\baz');
+        $request->server->set('REQUEST_URI', 'http://test.com/foo#bar\\baz');
         $this->assertEquals('http://test.com/foo', $request->getUri());
+
+        $request = Request::create('http://test.com/foo?bar=f\\o');
+        $this->assertEquals('http://test.com/foo?bar=f%5Co', $request->getUri());
+        $this->assertEquals('/foo', $request->getPathInfo());
+        $this->assertEquals('bar=f%5Co', $request->getQueryString());
+    }
+
+    /**
+     * @testWith ["http://foo.com\\bar"]
+     *           ["\\\\foo.com/bar"]
+     *           ["a\rb"]
+     *           ["a\nb"]
+     *           ["a\tb"]
+     *           ["\u0000foo"]
+     *           ["foo\u0000"]
+     *           [" foo"]
+     *           ["foo "]
+     *           ["//"]
+     */
+    public function testCreateWithBadRequestUri(string $uri)
+    {
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionMessage('Invalid URI');
+
+        Request::create($uri);
     }
 
     /**
@@ -2640,15 +2666,6 @@ class RequestTest extends TestCase
         foreach ((new \ReflectionClass(Request::class))->getConstants() as $constant => $value) {
             $this->assertNotSame(0b10000000, $value, sprintf('The constant "%s" should not use the reserved value "0b10000000".', $constant));
         }
-    }
-
-    /**
-     * @group legacy
-     */
-    public function testInvalidUriCreationDeprecated()
-    {
-        $this->expectDeprecation('Since symfony/http-foundation 6.3: Calling "Symfony\Component\HttpFoundation\Request::create()" with an invalid URI is deprecated.');
-        Request::create('/invalid-path:123');
     }
 }
 

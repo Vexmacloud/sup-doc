@@ -4,7 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\TenantController;
 use Illuminate\Support\Facades\Route;
-use routes\api;
 
 /*
 |--------------------------------------------------------------------------

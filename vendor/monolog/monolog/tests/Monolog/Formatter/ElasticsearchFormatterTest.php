@@ -12,9 +12,9 @@
 namespace Monolog\Formatter;
 
 use Monolog\Level;
-use Monolog\Test\TestCase;
+use Monolog\Test\MonologTestCase;
 
-class ElasticsearchFormatterTest extends TestCase
+class ElasticsearchFormatterTest extends MonologTestCase
 {
     /**
      * @covers Monolog\Formatter\ElasticsearchFormatter::__construct
@@ -34,7 +34,7 @@ class ElasticsearchFormatterTest extends TestCase
 
         // Expected values
         $expected = $msg->toArray();
-        $expected['datetime'] = '1970-01-01T00:00:00+0000';
+        $expected['datetime'] = '1970-01-01T00:00:00+00:00';
         $expected['context'] = [
             'class' => ['stdClass' => []],
             'foo' => 7,

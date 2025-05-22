@@ -11,7 +11,6 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Test\TestCase;
 use Monolog\Level;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -21,7 +20,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Sebastian Göttschkes <sebastian.goettschkes@googlemail.com>
  * @see https://www.pushover.net/api
  */
-class PushoverHandlerTest extends TestCase
+class PushoverHandlerTest extends \Monolog\Test\MonologTestCase
 {
     /** @var resource */
     private $res;
@@ -32,6 +31,7 @@ class PushoverHandlerTest extends TestCase
         parent::tearDown();
 
         unset($this->res);
+        unset($this->handler);
     }
 
     public function testWriteHeader()
@@ -131,7 +131,6 @@ class PushoverHandlerTest extends TestCase
             ->getMock();
 
         $reflectionProperty = new \ReflectionProperty('Monolog\Handler\SocketHandler', 'connectionString');
-        $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($this->handler, 'localhost:1234');
 
         $this->handler->expects($this->any())

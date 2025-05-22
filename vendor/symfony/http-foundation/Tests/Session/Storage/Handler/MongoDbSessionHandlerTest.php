@@ -98,7 +98,7 @@ class MongoDbSessionHandlerTest extends TestCase
         new MongoDbSessionHandler($this->manager, $options);
     }
 
-    public function provideInvalidOptions()
+    public static function provideInvalidOptions(): iterable
     {
         yield 'empty' => [[]];
         yield 'collection missing' => [['database' => 'foo']];
@@ -165,6 +165,8 @@ class MongoDbSessionHandlerTest extends TestCase
     {
         $this->storage->write('foo', 'bar');
         $this->storage->write('baz', 'qux');
+
+        $this->storage->open('test', 'test');
 
         $this->assertTrue($this->storage->destroy('foo'));
 

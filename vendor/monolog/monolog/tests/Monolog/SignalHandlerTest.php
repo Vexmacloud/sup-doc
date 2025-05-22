@@ -13,15 +13,15 @@ namespace Monolog;
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\TestHandler;
+use Monolog\Test\MonologTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\LogLevel;
-use Monolog\Test\TestCase;
 
 /**
  * @author Robert Gust-Bardon <robert@gust-bardon.org>
  * @covers Monolog\SignalHandler
  */
-class SignalHandlerTest extends TestCase
+class SignalHandlerTest extends MonologTestCase
 {
     private bool $asyncSignalHandling;
     private array $blockedSignals = [];
@@ -186,7 +186,7 @@ class SignalHandlerTest extends TestCase
         $logger = new Logger('test', [$handler = new TestHandler]);
         $errHandler = new SignalHandler($logger);
         $previousCalled = 0;
-        pcntl_signal(SIGURG, function ($signo, array $siginfo = null) use (&$previousCalled) {
+        pcntl_signal(SIGURG, function ($signo, ?array $siginfo = null) use (&$previousCalled) {
             ++$previousCalled;
         });
         $errHandler->registerSignalHandler(SIGURG, LogLevel::INFO, $callPrevious, false, false);

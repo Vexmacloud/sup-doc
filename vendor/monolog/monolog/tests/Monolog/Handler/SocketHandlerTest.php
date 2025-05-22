@@ -11,14 +11,13 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Test\TestCase;
 use Monolog\Level;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Pablo de Leon Belloc <pablolb@gmail.com>
  */
-class SocketHandlerTest extends TestCase
+class SocketHandlerTest extends \Monolog\Test\MonologTestCase
 {
     private SocketHandler&MockObject $handler;
 
@@ -32,6 +31,7 @@ class SocketHandlerTest extends TestCase
         parent::tearDown();
 
         unset($this->res);
+        unset($this->handler);
     }
 
     public function testInvalidHostname()

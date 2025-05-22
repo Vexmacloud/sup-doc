@@ -11,14 +11,13 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Test\TestCase;
 use Monolog\Level;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Robert Kaufmann III <rok3@rok3.me>
  */
-class LogEntriesHandlerTest extends TestCase
+class LogEntriesHandlerTest extends \Monolog\Test\MonologTestCase
 {
     /**
      * @var resource
@@ -32,6 +31,7 @@ class LogEntriesHandlerTest extends TestCase
         parent::tearDown();
 
         unset($this->res);
+        unset($this->handler);
     }
 
     public function testWriteContent()
@@ -72,7 +72,6 @@ class LogEntriesHandlerTest extends TestCase
             ->getMock();
 
         $reflectionProperty = new \ReflectionProperty('Monolog\Handler\SocketHandler', 'connectionString');
-        $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($this->handler, 'localhost:1234');
 
         $this->handler->expects($this->any())

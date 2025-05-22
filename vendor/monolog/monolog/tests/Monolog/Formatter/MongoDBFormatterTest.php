@@ -15,13 +15,12 @@ use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Regex;
 use MongoDB\BSON\UTCDateTime;
 use Monolog\Level;
-use Monolog\Test\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @author Florian Plattner <me@florianplattner.de>
  */
-class MongoDBFormatterTest extends TestCase
+class MongoDBFormatterTest extends \Monolog\Test\MonologTestCase
 {
     public function setUp(): void
     {
@@ -44,11 +43,9 @@ class MongoDBFormatterTest extends TestCase
         $formatter = new MongoDBFormatter($traceDepth, $traceAsString);
 
         $reflTrace = new \ReflectionProperty($formatter, 'exceptionTraceAsString');
-        $reflTrace->setAccessible(true);
         $this->assertEquals($expectedTraceAsString, $reflTrace->getValue($formatter));
 
         $reflDepth = new \ReflectionProperty($formatter, 'maxNestingLevel');
-        $reflDepth->setAccessible(true);
         $this->assertEquals($expectedTraceDepth, $reflDepth->getValue($formatter));
     }
 

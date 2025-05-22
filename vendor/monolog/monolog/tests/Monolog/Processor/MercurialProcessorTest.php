@@ -11,10 +11,43 @@
 
 namespace Monolog\Processor;
 
-use Monolog\Test\TestCase;
-
-class MercurialProcessorTest extends TestCase
+class MercurialProcessorTest extends \Monolog\Test\MonologTestCase
 {
+    private string $oldCwd;
+    private string $testDir;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->oldCwd = getcwd();
+        $this->testDir = sys_get_temp_dir().'/monolog-processor-mercurial-test';
+
+        mkdir($this->testDir, recursive: true);
+        chdir($this->testDir);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        chdir($this->oldCwd);
+
+        if (!file_exists($this->testDir)) {
+            return;
+        }
+        $items = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($this->testDir, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::CHILD_FIRST
+        );
+
+        foreach ($items as $item) {
+            $item->isDir() ? rmdir((string) $item) : unlink((string) $item);
+        }
+
+        rmdir($this->testDir);
+    }
+
     /**
      * @covers Monolog\Processor\MercurialProcessor::__invoke
      */
@@ -31,12 +64,17 @@ class MercurialProcessorTest extends TestCase
             return;
         }
 
-        `hg init`;
+        exec('hg init');
+        exec('hg branch default');
+        touch('test.txt');
+        exec('hg add test.txt');
+        exec('hg commit -u foo -m "initial commit"');
+
         $processor = new MercurialProcessor();
         $record = $processor($this->getRecord());
 
         $this->assertArrayHasKey('hg', $record->extra);
-        $this->assertTrue(!\is_array($record->extra['hg']['branch']));
-        $this->assertTrue(!\is_array($record->extra['hg']['revision']));
+        $this->assertSame('default', $record->extra['hg']['branch']);
+        $this->assertSame('0', $record->extra['hg']['revision']);
     }
 }

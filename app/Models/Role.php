@@ -12,8 +12,15 @@ class Role extends Model
 
     protected $fillable = ['role'];
 
+    // Existing hasMany relationship
     public function users()
     {
         return $this->hasMany(User::class, 'role_uuid', 'uuid');
+    }
+
+    // Adding the belongsToMany relationship
+    public function usersManyToMany()
+    {
+        return $this->belongsToMany(User::class, 'user_roles', 'role_id', 'user_id');
     }
 }

@@ -11,7 +11,6 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Test\TestCase;
 use Monolog\Level;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -19,7 +18,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Robert Kaufmann III <rok3@rok3.me>
  * @author Gabriel Machado <gabriel.ms1@hotmail.com>
  */
-class InsightOpsHandlerTest extends TestCase
+class InsightOpsHandlerTest extends \Monolog\Test\MonologTestCase
 {
     /**
      * @var resource
@@ -33,6 +32,7 @@ class InsightOpsHandlerTest extends TestCase
         parent::tearDown();
 
         unset($this->resource);
+        unset($this->handler);
     }
 
     public function testWriteContent()
@@ -68,7 +68,6 @@ class InsightOpsHandlerTest extends TestCase
             ->getMock();
 
         $reflectionProperty = new \ReflectionProperty('\Monolog\Handler\SocketHandler', 'connectionString');
-        $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($this->handler, 'localhost:1234');
 
         $this->handler->expects($this->any())

@@ -14,9 +14,9 @@ namespace Monolog\Formatter;
 use Monolog\Level;
 use Monolog\LogRecord;
 use JsonSerializable;
-use Monolog\Test\TestCase;
+use Monolog\Test\MonologTestCase;
 
-class JsonFormatterTest extends TestCase
+class JsonFormatterTest extends MonologTestCase
 {
     /**
      * @covers Monolog\Formatter\JsonFormatter::__construct
@@ -89,7 +89,8 @@ class JsonFormatterTest extends TestCase
             $this->getRecord(Level::Warning),
             $this->getRecord(Level::Debug),
         ];
-        $this->assertEquals(json_encode($records), $formatter->formatBatch($records));
+        $expected = array_map(fn (LogRecord $record) => json_encode($record->toArray(), JSON_FORCE_OBJECT), $records);
+        $this->assertEquals('['.implode(',', $expected).']', $formatter->formatBatch($records));
     }
 
     /**

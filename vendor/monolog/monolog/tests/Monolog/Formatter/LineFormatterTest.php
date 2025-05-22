@@ -11,7 +11,7 @@
 
 namespace Monolog\Formatter;
 
-use Monolog\Test\TestCase;
+use Monolog\Test\MonologTestCase;
 use Monolog\Level;
 use PHPUnit\Framework\Attributes\DataProvider;
 use RuntimeException;
@@ -19,7 +19,7 @@ use RuntimeException;
 /**
  * @covers Monolog\Formatter\LineFormatter
  */
-class LineFormatterTest extends TestCase
+class LineFormatterTest extends MonologTestCase
 {
     public function testDefFormatWithString()
     {
@@ -193,10 +193,9 @@ class LineFormatterTest extends TestCase
         });
 
         $message = $formatter->format($this->getRecord(Level::Critical, context: ['exception' => new \RuntimeException('Foo')]));
-
         $trace = explode('[stacktrace]', $message, 2)[1];
-
         $this->assertStringNotContainsString('#', $trace);
+        $this->assertSame(PHP_EOL . PHP_EOL . '"} []' . PHP_EOL, $trace);
     }
 
     public function testDefFormatWithPreviousException()

@@ -15,9 +15,8 @@ use DateTimeImmutable;
 use Monolog\Level;
 use Monolog\LogRecord;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 
-class SyslogFormatterTest extends TestCase
+class SyslogFormatterTest extends \Monolog\Test\MonologTestCase
 {
     /**
      * @param mixed[] $context
@@ -30,7 +29,7 @@ class SyslogFormatterTest extends TestCase
         string $channel,
         Level $level,
         string $message,
-        string $appName = null,
+        ?string $appName = null,
         array $context = [],
         array $extra = []
     ): void {
