@@ -76,7 +76,11 @@
       </div>
       
       <div class="carousel-container">
-        <div class="carousel-slides">
+        <div class="carousel-slides" 
+             @touchstart="handleTouchStart" 
+             @touchmove="handleTouchMove"
+             @touchend="handleTouchEnd"
+             @touchcancel="handleTouchCancel">
           <div class="carousel-slide" :class="{ active: currentSlide === 0 }">
             <div class="feature-card">
               <div class="feature-icon"><img src="@/../../public/images/analytics.gif" alt="analytics" style="width: 64px; height: 64px;"/></div>
@@ -192,7 +196,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, onUnmounted } from "vue";
 import "@/assets/style2.css";
 
 export default defineComponent({
@@ -224,6 +228,10 @@ export default defineComponent({
     // Carousel logic
     const currentSlide = ref(0);
     const totalSlides = 7;
+    const touchStartX = ref(0);
+    const touchEndX = ref(0);
+    const isSwiping = ref(false);
+    const slideTransform = ref(0);
     
     const nextSlide = () => {
       currentSlide.value = (currentSlide.value + 1) % totalSlides;
@@ -236,6 +244,74 @@ export default defineComponent({
     const setSlide = (index) => {
       currentSlide.value = index;
     };
+
+    // Touch handlers
+    const handleTouchStart = (e) => {
+      touchStartX.value = e.changedTouches[0].screenX;
+      isSwiping.value = true;
+    };
+
+    const handleTouchMove = (e) => {
+      if (!isSwiping.value) return;
+      
+      const currentX = e.changedTouches[0].screenX;
+      const diff = touchStartX.value - currentX;
+      
+      // Add visual feedback during swipe
+      if (Math.abs(diff) > 10) {
+        slideTransform.value = diff * 0.5;
+        const slides = document.querySelectorAll('.carousel-slide');
+        slides[currentSlide.value].style.transform = `translateX(${slideTransform.value}px)`;
+        slides[currentSlide.value].style.transition = 'none';
+      }
+    };
+
+    const handleTouchEnd = (e) => {
+      if (!isSwiping.value) return;
+      
+      touchEndX.value = e.changedTouches[0].screenX;
+      handleSwipe();
+      isSwiping.value = false;
+      
+      // Reset transform
+      const slides = document.querySelectorAll('.carousel-slide');
+      slides[currentSlide.value].style.transform = '';
+      slides[currentSlide.value].style.transition = '';
+      slideTransform.value = 0;
+    };
+
+    const handleTouchCancel = () => {
+      isSwiping.value = false;
+      // Reset transform
+      const slides = document.querySelectorAll('.carousel-slide');
+      slides[currentSlide.value].style.transform = '';
+      slides[currentSlide.value].style.transition = '';
+      slideTransform.value = 0;
+    };
+
+    const handleSwipe = () => {
+      const swipeThreshold = 50; // Minimum distance for swipe
+      const diff = touchStartX.value - touchEndX.value;
+
+      if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+          // Swipe left
+          nextSlide();
+        } else {
+          // Swipe right
+          prevSlide();
+        }
+      }
+    };
+
+    // Keyboard handler
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+      }
+    };
     
     // Auto-rotate carousel
     let carouselInterval;
@@ -246,10 +322,14 @@ export default defineComponent({
         nextSlide();
       }, 5000);
       
-      // Clean up interval on component unmount
-      return () => {
-        clearInterval(carouselInterval);
-      };
+      // Add keyboard event listener
+      window.addEventListener('keydown', handleKeyDown);
+    });
+
+    onUnmounted(() => {
+      // Clean up
+      clearInterval(carouselInterval);
+      window.removeEventListener('keydown', handleKeyDown);
     });
     
     return {
@@ -257,8 +337,27 @@ export default defineComponent({
       currentSlide,
       nextSlide,
       prevSlide,
-      setSlide
+      setSlide,
+      touchStartX,
+      touchEndX,
+      isSwiping,
+      slideTransform,
+      handleTouchStart,
+      handleTouchMove,
+      handleTouchEnd,
+      handleTouchCancel,
+      handleSwipe
     };
   }
 });
 </script>
+
+<style scoped>
+.carousel-slide {
+  transition: transform 0.3s ease-out;
+}
+
+.carousel-slide.active {
+  transition: transform 0.3s ease-out;
+}
+</style>
