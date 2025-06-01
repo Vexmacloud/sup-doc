@@ -67,6 +67,9 @@ $box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
 
     .sb-articles-body {
         padding: 40px 15px;
+        font-size: 14px;
+        line-height: 25px;
+        color: $color-black;
 
         h1, h2, h3 {
             font-weight: 500;
@@ -136,7 +139,7 @@ $box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
         }
 
         .sb-content ul li {
-            font-size: 15px;
+            font-size: 14px;
             line-height: 30px;
         }
 
@@ -174,6 +177,10 @@ $box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
                     margin-left: 80px;
                 }
             }
+        }
+
+        .sb-btn-text {
+            font-size: 14px;
         }
     }
 

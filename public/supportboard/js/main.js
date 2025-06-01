@@ -12,7 +12,7 @@
 
 (function ($) {
 
-    var version = '3.7.9';
+    var version = '3.8.0';
     var main;
     var global;
     var upload_target;
@@ -82,6 +82,7 @@
 
     var SBF = {
         visibility_status: 'visible',
+        loop_prevention: false,
 
         // Main Ajax function
         ajax: function (data, onSuccess = false) {
@@ -148,6 +149,9 @@
                                 }
                                 SBChat.is_busy_update = false;
                                 SBChat.busy(false);
+                                if (result_sub[1] == 'login-data-error' && !this.loop_prevention) {
+                                    return;
+                                }
                                 let result_sub_arr = JSON.parse(result_sub);
                                 if (Array.isArray(result_sub_arr) && result_sub_arr[0] == 'error' && result_sub_arr[2] && result_sub_arr[3]) {
                                     SBF.error(result_sub_arr[3], result_sub_arr[2]);
@@ -369,16 +373,7 @@
                 location.timezone = details.timezone.value;
                 location.country = details.country ? details.country.value : location.timezone.split('/')[0].replace(/_/g, ' ');
                 location.city = details.city ? details.city.value : location.timezone.split('/')[1].replace(/_/g, ' ');
-                SBF.cors('GET', 'https://worldtimeapi.org/api/timezone/' + location.timezone, function (response) {
-                    response = JSON.parse(response);
-                    if (SBF.null(response) || response.error) {
-                        SBF.error(response, 'SBF.getLocationTimeString()');
-                        onSuccess(responseonSuccess);
-                    } else {
-                        let datetime = response.datetime.replace('T', ' ');
-                        onSuccess(`${new Date(datetime.substr(0, datetime.indexOf('.'))).toLocaleString([], { hour: '2-digit', minute: '2-digit' })} ${sb_('in')} ${location.city ? location.city : ''}${location.country ? ', ' + location.country : ''}`);
-                    }
-                });
+                onSuccess(`${new Intl.DateTimeFormat(undefined, { timeZone: location.timezone, hour: '2-digit', minute: '2-digit' }).format(new Date())} ${sb_('in')} ${location.city ? location.city : ''}${location.country ? ', ' + location.country : ''}`);
             }
         },
 
@@ -1717,7 +1712,8 @@
             let agent = SBF.isAgent(this.details.user_type);
             let message = this.message;
             let attachments = this.attachments;
-            let admin_menu = admin ? SBAdmin.conversations.messageMenu(agent, message) : '';
+            let reply = this.payload('reply');
+            let admin_menu = admin ? SBAdmin.conversations.messageMenu(agent, message, !reply) : '';
             let attachments_code = '';
             let media_code = '';
             let thumb = (admin && SB_ADMIN_SETTINGS.show_profile_images) || (!admin && ((agent && !CHAT_SETTINGS.hide_agents_thumb) || (!agent && CHAT_SETTINGS.display_users_thumb))) ? `<div class="sb-thumb"><img loading="lazy" src="${this.details['profile_image']}"><div class="sb-tooltip"><div>${this.details['full_name']}</div></div></div>` : '';
@@ -1725,8 +1721,24 @@
             let type = '';
             let name = (!admin && agent && CHAT_SETTINGS.sender_name) || (admin && SB_ADMIN_SETTINGS.sender_name == 'chat-admin') ? `<span class="sb-agent-name">${this.get('full_name')}</span>` : '';
             let delivery_failed = admin ? this.payload().delivery_failed : false;
+
             if (!message && !attachments.length) {
                 return '';
+            }
+            if (reply && SBChat.conversation && SBChat.conversation.getMessage(reply)) {
+                reply = SBChat.conversation.getMessage(reply);
+                let is_agent = SBF.isAgent(reply.get('user_type'));
+                let text = reply.message;
+                if (!text) {
+                    text = '<div class="sb-message-attachments">';
+                    attachments.forEach((attachment) => {
+                        text += `<a>${attachment[0]}</a>`;
+                    });
+                    text += '</div>';
+                }
+                reply = `<div class="sb-reply-message${is_agent ? ' sb-reply-agent' : ''}"><span>${(is_agent && admin) || (!is_agent && !admin) ? sb_('You') : reply.get('full_name')}</span> ${text}</div>`;
+            } else {
+                reply = '';
             }
 
             // Rich Messages
@@ -1798,7 +1810,7 @@
             }
 
             // Message creation
-            return `<div data-id="${this.details.id}" class="${css}" ${type}>${thumb}<div class="sb-cnt"><div class="sb-message${media_code && !message ? ' sb-message-media' : ''}"${delivery_failed ? ' style="opacity:.7"' : ''}>${delivery_failed ? SBAdmin.conversations.getDeliveryFailedMessage(delivery_failed) : ''}${(name + message + media_code).trim()}</div>${attachments_code}<div class="sb-time">${SBF.beautifyTime(this.details.creation_time, true)}${admin && agent && this.details.status_code == 2 ? '<i class="sb-icon-check"></i>' : ''}</div></div>${admin_menu}</div>`;
+            return `<div data-id="${this.details.id}" class="${css}" ${type}>${thumb}${reply}<div class="sb-cnt"><div class="sb-message${media_code && !message ? ' sb-message-media' : ''}"${delivery_failed ? ' style="opacity:.7"' : ''}>${delivery_failed ? SBAdmin.conversations.getDeliveryFailedMessage(delivery_failed) : ''}${(name + message + media_code).trim()}</div>${attachments_code}<div class="sb-time">${SBF.beautifyTime(this.details.creation_time, true)}${admin && agent && this.details.status_code == 2 ? '<i class="sb-icon-check"></i>' : ''}</div></div>${admin_menu}</div>`;
         }
 
         render(message = false) {
@@ -2054,7 +2066,7 @@
                     if (shortcodes.length) {
                         let shortcode = SBRichMessages.shortcode(shortcodes[0]);
                         if (shortcode[0]) {
-                            text = text.replace(shortcodes[0], shortcode[0] == 'action' ? '' : sb_(shortcode[1].message ? shortcode[1].message : (shortcode[1].title ? shortcode[1].title : (shortcode[1].name ? shortcode[1].name : (shortcode[1].link ? shortcode[1].link : (shortcode[1].values ? shortcode[1].values.replaceAll(',', ', ').replaceAll('  ', ' ') : (shortcode[1].options ? shortcode[1].options.replaceAll(',', ', ').replaceAll('  ', ' ') : sb_(SBF.slugToString(shortcode[0])))))))));
+                            text = text.replace(shortcodes[0], shortcode[0] == 'action' ? '' : sb_(shortcode[1].message ? shortcode[1].message : (shortcode[1].title ? shortcode[1].title : (shortcode[1].name && shortcode[1].name != 'false' && shortcode[1].name != 'true' ? shortcode[1].name : (shortcode[1].link ? shortcode[1].link : (shortcode[1].values ? shortcode[1].values.replaceAll(',', ', ').replaceAll('  ', ' ') : (shortcode[1].options ? shortcode[1].options.replaceAll(',', ', ').replaceAll('  ', ' ') : sb_(SBF.slugToString(shortcode[0])))))))));
                         }
                     }
                 }
@@ -2194,6 +2206,7 @@
             let is_dialogflow_human_takeover = dialogflow_human_takeover && SBApps.dialogflow.active();
             let is_return = false;
             let conversation = this.conversation;
+            let reply_id = chat_editor.find('> [data-reply]').attr('data-reply');
 
             // Check settings and contents
             if (!activeUser() && !admin) {
@@ -2264,6 +2277,13 @@
             }
             if (!admin && is_user && !is_dialogflow_human_takeover) {
                 conversation_status_code = 2;
+            }
+            if (reply_id) {
+                if (payload) {
+                    payload.reply = message;
+                } else {
+                    payload = { reply: reply_id };
+                }
             }
 
             // Send message
@@ -2499,6 +2519,7 @@
                 if (admin) {
                     SBAdmin.conversations.setStatus(1, false, true);
                 }
+                SBChat.cancelReply();
             }
         },
 
@@ -3778,7 +3799,14 @@
         },
 
         enabledAutoExpand: function () {
-            if (chat_textarea.length) chat_textarea.autoExpandTextarea();
+            if (chat_textarea.length) {
+                chat_textarea.autoExpandTextarea();
+            }
+        },
+
+        cancelReply: function () {
+            chat_editor.find('[data-reply]').remove();
+            chat.removeClass('sb-reply-active');
         },
 
         // Privacy message
@@ -5870,7 +5898,7 @@
                 SBF.event('SBReady');
             }
             $(chat_editor).on('keydown', 'textarea', function (e) {
-                if (e.which == 13 && (!tickets || CHAT_SETTINGS.tickets_enter_button) && (!admin || (!e.ctrlKey && !e.shiftKey))) {
+                if (e.which == 13 && (!tickets || CHAT_SETTINGS.tickets_enter_button) && (!admin || (!mobile && !e.ctrlKey && !e.shiftKey))) {
                     SBChat.submit();
                     e.preventDefault;
                     return false;

@@ -1493,6 +1493,10 @@ div ul.sb-menu li, .sb-select ul li {
     right: 15px;
 }
 
+.sb-admin-nav-right [data-value="status"]:after, td.sb-online:after, td.sb-offline:after {
+    right: 12px;
+}
+
 /*
 
 # SETTINGS AREA

@@ -10,22 +10,22 @@
  */
 
 /* Plugin folder url */
-define('SB_URL', '[url]');
+define('SB_URL', 'https://docs.vexmacloud.com/supportboard');
 
 /* The name of the database */
-define('SB_DB_NAME', '[name]');
+define('SB_DB_NAME', 'supdoc');
 
 /* MySQL database username */
-define('SB_DB_USER', '[user]');
+define('SB_DB_USER', 'vexmacloud');
 
 /* MySQL database password */
-define('SB_DB_PASSWORD', '[password]');
+define('SB_DB_PASSWORD', 'Developer@123');
 
 /* MySQL hostname */
-define('SB_DB_HOST', '[host]');
+define('SB_DB_HOST', '127.0.0.1');
 
 /* MySQL port (optional) */
-define('SB_DB_PORT', '[port]');
+define('SB_DB_PORT', '');
 
 /* [extra] */
 

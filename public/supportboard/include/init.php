@@ -69,7 +69,7 @@ function sb_component_chat() {
     $departments_menu = sb_get_multi_setting('departments-settings', 'departments-dashboard');
     $agents_menu = sb_get_multi_setting('agents-menu', 'agents-menu-active');
     sb_cross_site_init();
-    if (sb_get_setting('rtl') || in_array(sb_get_user_language(), ['ar', 'he', 'ku', 'fa', 'ur'])) {
+    if (sb_is_rtl()) {
         $css .= ' sb-rtl';
     }
     if (sb_get_setting('chat-position') == 'left') {

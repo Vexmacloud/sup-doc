@@ -33,6 +33,11 @@ if ($_POST['function'] == 'ajax_calls') {
     $calls = $_POST['calls'];
     $GLOBALS['SB_JSON_RAW'] = true;
     for ($i = 0; $i < count($calls); $i++) {
+        if ($i) {
+            foreach ($calls[$i - 1] as $key => $null) {
+                $_POST[$key] = false;
+            }
+        }
         $_POST = array_merge($_POST, $calls[$i]);
         array_push($response, sb_ajax_execute());
     }
@@ -417,7 +422,7 @@ function sb_ajax_execute() {
         case 'whatsapp-get-templates':
             return sb_json_response(sb_whatsapp_get_templates(sb_post('business_account_id'), sb_post('template_name'), sb_post('template_langauge')));
         case 'whatsapp-send-template':
-            return sb_json_response(sb_whatsapp_send_template($_POST['to'], sb_post('language', ''), sb_post('conversation_url_parameter', ''), sb_post('user_name', ''), sb_post('user_email', ''), sb_post('template_name'), sb_post('phone_id'), sb_post('parameters'), sb_post('template_languages'), sb_post('user_id')));
+            return sb_json_response(sb_whatsapp_send_template($_POST['to'], sb_post('language', ''), sb_post('conversation_url_parameter', ''), sb_post('user_name', ''), sb_post('user_email', ''), sb_post('template_name'), sb_post('phone_id'), sb_post('parameters'), sb_post('template_languages'), sb_post('recipient_id', sb_post('user_id'))));
         case 'whatsapp-360-synchronization':
             return sb_json_response(sb_whatsapp_360_synchronization($_POST['token'], sb_post('cloud_token')));
         case 'telegram-send-message':
@@ -568,7 +573,7 @@ function sb_ajax_execute() {
         case 'data-scraping':
             return sb_json_response(sb_open_ai_data_scraping($_POST['conversation_id'], $_POST['prompt_id']));
         case 'assign-conversations-active-agent':
-            return sb_json_response(sb_routing_assign_conversations_active_agent());
+            return sb_json_response(sb_routing_assign_conversations_active_agent(sb_post('is_queue')));
         case 'whatsapp-clear-flows':
             return sb_json_response(sb_save_external_setting('wa-flows', []));
         case 'generate-sitemap':
@@ -615,7 +620,7 @@ function sb_security($function) {
         'agent' => ['shopify-get-product-link', 'shopify-get-conversation-details', 'update-conversation-extra', 'generate-sitemap', 'open-ai-html-to-paragraphs', 'google-troubleshoot', 'open-ai-troubleshoot', 'whatsapp-clear-flows', 'assign-conversations-active-agent', 'init-articles-admin', 'data-scraping', 'opencart-order-details', 'opencart-panel', 'open-ai-get-qea-training', 'open-ai-qea-training', 'get-tags', 'add-user', 'get-html', 'envato', 'whatsapp-get-templates', 'automations-is-sent', 'logs', 'newsletter', 'get-last-agent-in-conversation', 'messaging-platforms-send-message', 'open-ai-user-expressions', 'whatsapp-send-template', 'martfury-sync', 'martfury-sync-sellers', 'martfury-get-conversation-details', 'zendesk-update-ticket', 'zendesk-create-ticket', 'zendesk-get-conversation-details', 'dialogflow-knowledge', 'save-articles-categories', 'on-close', 'check-conversations-assignment', 'delete-file', 'dialogflow-smart-reply', 'dialogflow-update-intent', 'dialogflow-get-intents', 'ump-get-conversation-details', 'armember-get-conversation-details', 'count-conversations', 'reports-update', 'get-agents-ids', 'send-custom-email', 'get-users-with-details', 'direct-message', 'messenger-send-message', 'wechat-send-message', 'whatsapp-send-message', 'telegram-send-message', 'viber-send-message', 'zalo-send-message', 'line-send-message', 'twitter-send-message', 'get-user-language', 'get-notes', 'add-note', 'update-note', 'delete-note', 'user-online', 'get-user-from-conversation', 'aecommerce-get-conversation-details', 'whmcs-get-conversation-details', 'woocommerce-get-order', 'woocommerce-coupon-delete-expired', 'woocommerce-coupon-check', 'woocommerce-coupon', 'woocommerce-is-in-stock', 'woocommerce-get-attribute-by-name', 'woocommerce-get-attribute-by-term', 'woocommerce-get-product-taxonomies', 'woocommerce-get-product-images', 'woocommerce-get-product-id-by-name', 'woocommerce-get-user-orders', 'woocommerce-get-product', 'woocommerce-get-customer', 'dialogflow-get-agent', 'dialogflow-get-entity', 'woocommerce-products-popup', 'woocommerce-search-products', 'woocommerce-get-products', 'woocommerce-get-data', 'is-agent-typing', 'close-message', 'count-users', 'get-users', 'get-new-users', 'get-online-users', 'search-users', 'get-conversations', 'get-new-conversations', 'search-conversations', 'csv-users', 'send-test-email', 'slack-users', 'clean-data', 'save-translations', 'dialogflow-intent', 'dialogflow-create-intent', 'dialogflow-entity', 'get-rating', 'save-article', 'update', 'archive-slack-channels'],
         'user' => ['shopify-cart-sync', 'open-ai-send-fallback-message', 'open-ai-flows-get', 'audio-to-text', 'update-tags', 'execute-bot-message', 'remove-email-cron', 'aws-s3', 'is-allowed-extension', 'translate-string', 'dialogflow-human-takeover', 'google-language-detection-update-user', 'google-translate', 'get-agents-in-conversation', 'update-conversation-agent', 'update-conversation-department', 'get-avatar', 'slack-presence', 'woocommerce-waiting-list', 'dialogflow-set-active-context', 'search-user-conversations', 'update-login', 'update-user', 'get-user', 'get-user-extra', 'update-user-to-lead', 'new-conversation', 'get-user-conversations', 'get-new-user-conversations', 'send-slack-message', 'slack-unarchive', 'update-message', 'delete-message', 'update-user-and-message', 'get-conversation', 'get-new-messages', 'set-rating', 'create-email', 'send-email']
     ];
-    $user_id = sb_post('user_id', -1);
+    $user_id = sb_post('user_id');
     $active_user = sb_get_active_user(sb_post('login-cookie'));
 
     // No check
@@ -634,7 +639,7 @@ function sb_security($function) {
     if ($active_user && isset($active_user['user_type'])) {
         $user_type = $active_user['user_type'];
         $current_user_id = sb_isset($active_user, 'id', -2);
-        if ($user_id == -1) {
+        if (!$user_id) {
             $user_id = $current_user_id;
             $_POST['user_id'] = $current_user_id;
         }

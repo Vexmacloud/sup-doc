@@ -113,7 +113,6 @@ function sb_get_front_settings() {
         'language_detection' => false,
         'cloud' => sb_is_cloud() ? ['cloud_user_id' => json_decode(sb_encryption($_POST['cloud'], false), true)['user_id']] : false,
         'automations' => sb_automations_run_all(),
-        'rtl' => sb_get_setting('rtl'),
         'close_chat' => sb_get_setting('close-chat'),
         'sender_name' => sb_get_setting('sender-name'),
         'tickets' => defined('SB_TICKETS') && !empty($_POST['tickets']) && $_POST['tickets'] != 'false',
@@ -228,12 +227,12 @@ function sb_js_admin() {
     $active_user_type = sb_isset($active_user, 'user_type');
     $is_agent = sb_is_agent($active_user_type, true, false, true);
     $language = sb_get_admin_language();
+    $routing_type = sb_get_multi_setting('queue', 'queue-active') ? 'queue' : (sb_get_multi_setting('routing', 'routing-active') ? 'routing' : (sb_get_multi_setting('agent-hide-conversations', 'agent-hide-conversations-active') ? 'hide-conversations' : false));
     $settings = [
         'bot_id' => sb_get_bot_id(),
         'close_message' => sb_get_multi_setting('close-message', 'close-active'),
         'close_message_transcript' => sb_get_multi_setting('close-message', 'close-transcript'),
-        'routing_only' => sb_get_multi_setting('routing', 'routing-active'),
-        'routing' => (!$active_user || $is_agent) && (sb_get_multi_setting('queue', 'queue-active') || sb_get_multi_setting('routing', 'routing-active') || sb_get_multi_setting('agent-hide-conversations', 'agent-hide-conversations-active')),
+        'routing' => (!$active_user || $is_agent) && $routing_type ? $routing_type : false,
         'desktop_notifications' => sb_get_setting('desktop-notifications'),
         'push_notifications' => sb_get_multi_setting('push-notifications', 'push-notifications-active'),
         'push_notifications_users' => sb_get_multi_setting('push-notifications', 'push-notifications-users-active'),
@@ -326,8 +325,8 @@ function sb_js_admin() {
     } else {
         $code .= 'var SB_ACTIVE_AGENT = { id: "", full_name: "", user_type: "", profile_image: "", email: "" };';
     }
-    if ($active_user && $is_agent && $settings['routing_only']) {
-        sb_routing_assign_conversations_active_agent();
+    if ($active_user && $is_agent && $routing_type) {
+        sb_routing_assign_conversations_active_agent($routing_type == 'queue');
     }
     if (defined('SB_WP')) {
         $code .= 'var SB_WP = true;';

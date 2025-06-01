@@ -5582,6 +5582,17 @@ td.sb-offline:after {
  *
 */
 
+
+#sb-whatsapp-alert-btn {
+    transform: translate(10px, 2px);
+    display: inline-block;
+    transition: $transition;
+
+    &:hover {
+        opacity: .6;
+    }
+}
+
 .sb-btn-app-disable {
     display: none !important;
 }

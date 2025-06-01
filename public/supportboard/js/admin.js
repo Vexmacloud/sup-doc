@@ -471,7 +471,7 @@
                 return infoBottom(response, 'error');
             }
             for (var i = 0; i < response.length; i++) {
-                if (provider == 'official' && response[i].status == 'APPROVED' && (!SB_ACTIVE_AGENT.department || !response[i].department || SB_ACTIVE_AGENT.department == response[i].department)) {
+                if (provider == 'official' && response[i].status == 'APPROVED' && (!SB_ACTIVE_AGENT.department || !response[i].department.length || response[i].department.includes(SB_ACTIVE_AGENT.department))) {
                     code += `<option value="${response[i].name}" data-languages="${response[i].languages}" data-phone-id="${response[i].phone_number_id}">${response[i].name} (${response[i].label})</option>`;
                 }
                 if (twilio) {
@@ -1374,7 +1374,7 @@
                             SBF.ajax({ function: 'open-ai-url-training', url: url }, (response) => {
                                 if (this.isError(response)) {
                                     return;
-                                } else if (!response[0]) {
+                                } else if (!response[0] && !response[1].includes('http-error-404') && !response[1].includes('http-error-302')) {
                                     if (response[1].includes('http-error') && index === 0) {
                                         this.errors.push(response[2]);
                                     } else if (response[0][0] !== true) {
@@ -3858,8 +3858,8 @@
             if (SBPusher.active) {
                 if (online) {
                     SBPusher.presence();
-                    if (SB_ADMIN_SETTINGS.routing_only) {
-                        SBF.ajax({ function: 'assign-conversations-active-agent' }, () => {
+                    if (SB_ADMIN_SETTINGS.routing == 'queue' || SB_ADMIN_SETTINGS.routing == 'routing') {
+                        SBF.ajax({ function: 'assign-conversations-active-agent', is_queue: SB_ADMIN_SETTINGS.routing == 'queue' }, () => {
                             SBConversations.update();
                         });
                     }
@@ -3927,7 +3927,7 @@
 
     var SBConversations = {
         real_time: null,
-        datetime_last_conversation: '2000-01-01 00:00:00',
+        datetime_last_conversation: false,
         user_typing: false,
         desktop_notifications: false,
         flash_notifications: false,
@@ -4181,28 +4181,24 @@
                                 break;
                             }
                         }
-                        // <<< Deprecated >>>
-                        for (var i = response.messages.length - 1; i > 0; i--) {
-                            let payload = response.messages[i].get('payload');
-                            let break_loop = false;
-                            if (payload && payload['rich-messages']) {
-                                for (var rich_message_id in payload['rich-messages']) {
-                                    let rich_message = payload['rich-messages'][rich_message_id];
-                                    if (rich_message.type == 'rating') {
-                                        conversations_area.find('.sb-profile-list > ul').append(`<li data-id="rating"><i class="sb-icon sb-icon-${rich_message.result.rating == 1 ? 'like' : 'dislike'}"></i><span>${sb_('User rating')}</span><label>${sb_(rich_message.result.rating == 1 ? 'Helpful' : 'Not helpful')}</label></li>`);
-                                        break_loop = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (break_loop) break;
-                        }
-                        // <<<< Deprecated >>>
 
-                        // Cc
+                        // Source tasks
                         if (response.get('source') == 'em') {
                             this.cc(response.get('extra').split(','));
                         }
+                        if (response.get('source') == 'wa') {
+                            let datetime = response.getLastUserMessage();
+                            if (datetime) {
+                                if ((new Date()) - (new Date(datetime.get('creation_time').replace(' ', 'T'))) > 86400000) {
+                                    infoBottom(sb_('You can\'t send a WhatsApp message more than 24 hours after the user\'s last message—use a template instead.') + '<i id="sb-whatsapp-alert-btn" class="sb-icon-social-wa"</i>', 'info');
+                                }
+                            }
+                        }
+
+                        admin.on('click', '#sb-whatsapp-alert-btn', function () {
+                            SBConversations.showDirectMessageBox('whatsapp', [activeUser().id]);
+                        });
+
 
                         // Populate user conversations on the bottom right area
                         activeUser().getConversations(function (response) {
@@ -4302,7 +4298,7 @@
 
         // Update the left conversations list with latest conversations or messages 
         update: function () {
-            if (!this.busy && conversations_filters.eq(0).find('p').attr('data-value') == 0) {
+            if (!this.busy && conversations_filters.eq(0).find('p').attr('data-value') == 0 && this.datetime_last_conversation) {
                 let filters = SBConversations.filters();
                 this.busy = true;
                 SBF.ajax({
@@ -4494,8 +4490,8 @@
         },
 
         // Return the code of the message menu
-        messageMenu: function (agent, message = false) {
-            let code = (message && SB_ADMIN_SETTINGS.chatbot_features ? `<li data-value="bot">${sb_('Train chatbot')}</li>` : '') + ((agent && !SB_ADMIN_SETTINGS.supervisor && SB_ADMIN_SETTINGS.allow_agent_delete_message) || (SB_ADMIN_SETTINGS.supervisor && SB_ADMIN_SETTINGS.allow_supervisor_delete_message) ? `<li data-value="delete">${sb_('Delete')}</li>` : '');
+        messageMenu: function (agent, message = false, replay = false) {
+            let code = (message && SB_ADMIN_SETTINGS.chatbot_features ? `<li data-value="bot">${sb_('Train chatbot')}</li>` : '') + ((agent && !SB_ADMIN_SETTINGS.supervisor && SB_ADMIN_SETTINGS.allow_agent_delete_message) || (SB_ADMIN_SETTINGS.supervisor && SB_ADMIN_SETTINGS.allow_supervisor_delete_message) ? `<li data-value="delete">${sb_('Delete')}</li>` : '') + (replay ? `<li data-value="reply">${sb_('Reply')}</li>` : '');
             return `<i class="sb-menu-btn sb-icon-menu"></i><ul class="sb-menu">${code}</ul>`;
         },
 
@@ -5158,6 +5154,7 @@
                     }
                     profile_area.find('ul').append(code);
                     collapse(profile_area, 145);
+                    SBF.event('SBUserLoaded', user);
                 });
             } else {
                 for (var key in user.extra) {
@@ -5166,6 +5163,7 @@
                 }
                 profile_area.find('ul').append(code);
                 collapse(profile_area, 145);
+                SBF.event('SBUserLoaded', user);
             }
         },
 
@@ -5183,10 +5181,15 @@
                 case 'user_type':
                     value = SBF.slugToString(value);
                     break;
+                case 'country':
                 case 'country_code':
                 case 'language':
                 case 'browser_language':
-                    icon = `<img src="${SB_URL}/media/flags/${value.toLowerCase()}.png" />`;
+                    let flag = value;
+                    if (value == 'ar' && (key == 'language' || key == 'browser_language')) {
+                        flag = 'arc';
+                    }
+                    icon = `<img src="${SB_URL}/media/flags/${flag.toLowerCase()}.png" />`;
                     break;
                 case 'browser':
                     lowercase = value.toLowerCase();
@@ -6697,7 +6700,7 @@
         });
 
         // Right profile list methods
-        $(admin).on('click', '.sb-profile-list li', function () {
+        $(admin).on('click', '.sb-profile-list-conversation li', function () {
             let label = $(this).find('label');
             let label_value = label.html();
             switch ($(this).attr('data-id')) {
@@ -6770,10 +6773,6 @@
         });
 
         // Dialogflow
-        $(conversations_area).on('click', '.sb-menu [data-value="bot"]', function () {
-            SBApps.dialogflow.showCreateIntentBox($(this).closest('[data-id]').attr('data-id'));
-        });
-
         $(dialogflow_intent_box).on('click', '.sb-intent-add [data-value="add"]', function () {
             dialogflow_intent_box.find('> div > .sb-type-text').last().after('<div class="sb-setting sb-type-text"><input type="text"></div>');
         });
@@ -7029,7 +7028,8 @@
         $(conversations_area).on('click', '.sb-list .sb-menu > li', function () {
             let message = $(this).closest('[data-id]');
             let message_id = message.attr('data-id');
-            let message_user_type = SBChat.conversation.getMessage(message_id).get('user_type');
+            let message_ = SBChat.conversation.getMessage(message_id);
+            let message_user_type = message_.get('user_type');
             let value = $(this).attr('data-value');
             switch (value) {
                 case 'delete':
@@ -7051,8 +7051,6 @@
                 case 'translation':
                 case 'original':
                     let is_translation = value == 'translation';
-                    let agent = SBF.isAgent(message_user_type);
-                    let message_ = SBChat.conversation.getMessage(message_id);
                     let keys = ['translation', 'translation-language', 'original-message', 'original-message-language'];
                     let original_payload = keys.map(key => message_.payload(key)).concat(message_.details.message);
                     message_.set('message', is_translation ? message_.payload('translation') || message_.get('message') : message_.payload('original-message') || message_.get('message'));
@@ -7060,6 +7058,21 @@
                     message.replaceWith(message_.getCode().replace('sb-menu">', `sb-menu"><li data-value="${is_translation ? 'original' : 'translation'}">${sb_(is_translation ? 'View original message' : 'View translation')}</li>`));
                     keys.forEach((key, i) => message_.payload(key, original_payload[i]));
                     message_.details.message = original_payload[4];
+                    break;
+                case 'bot':
+                    SBApps.dialogflow.showCreateIntentBox($(this).closest('[data-id]').attr('data-id'));
+                    break;
+                case 'reply':
+                    let is_agent = SBF.isAgent(message_user_type);
+                    let text = message_.get('message');
+                    if (!text) {
+                        message_.attachments.forEach((attachment) => {
+                            text += '<i class="sb-icon-clip"></i>' + attachment[0];
+                        });
+                    }
+                    conversations_area.find('.sb-editor [data-reply]').remove();
+                    conversations_area.find('.sb-editor').prepend(`<div data-reply="${message_id}"${is_agent ? ' class="sb-reply-color"' : ''}><span>${(is_agent && admin) || (!is_agent && !admin) ? sb_('You') : message_.get('full_name')}</span>${text}<i class="sb-icon-close" onclick="SBChat.cancelReply()"></i></div>`);
+                    conversations_area_list.addClass('sb-reply-active');
                     break;
             }
         });
@@ -8187,7 +8200,7 @@
             });
         });
 
-        // Conflicts and warnings
+        // Conflicts alerts and warnings
         let warning_messages = ['Settings > {R} won\'t work if Settings > {R2} is active.'];
         $(settings_area).on('click', '.sb-setting', function (e) {
             let id = $(this).attr('id');
@@ -8224,6 +8237,22 @@
                 case 'google-multilingual-translation':
                     if ($(e.target).is(':checked') && settings_area.find('#open-ai-active input').is(':checked') && !settings_area.find('#open-ai-training-data-language select').val()) {
                         infoBottom('If your OpenAI training data isn\'t in English, set the default language under OpenAI > Training data language.', 'info');
+                    }
+                    break;
+                case 'open-ai-prompt':
+                    infoBottom('Custom prompts may break the chatbot, we advise leaving it empty.', 'info');
+                    break;
+                case 'open-ai-tokens':
+                case 'open-ai-temperature':
+                case 'open-ai-presence-penalty':
+                case 'open-ai-frequency-penalty':
+                case 'open-ai-logit-bias':
+                case 'open-ai-custom-model':
+                    infoBottom('This is an advanced setting, incorrect values may break the chatbot. If you\'re unsure, leave it empty.', 'info');
+                    break;
+                case 'open-ai-user-train-conversations':
+                    if ($(e.target).is(':checked')) {
+                        infoBottom('This method is not recommended. See the docs for details.', 'info');
                     }
                     break;
             }
@@ -8503,10 +8532,14 @@
                     if (qea.length) {
                         qea = [qea.find('input').val(), qea.find('textarea').val()];
                         if (qea[0] != $('<textarea />').html(conversations_qea[i].question).text() || qea[1] != $('<textarea />').html(conversations_qea[i].answer).text()) {
-                            to_update.push([conversations_qea[i], qea[0] && qea[1] ? qea : false]);
+                            conversations_qea[i].question = qea[0];
+                            conversations_qea[i].answer = qea[1];
+                            to_update.push(conversations_qea[i]);
                         }
                     } else {
-                        to_update.push([conversations_qea[i], false]);
+                        conversations_qea[i].question = false;
+                        conversations_qea[i].answer = false;
+                        to_update.push(conversations_qea[i]);
                     }
                 }
                 if (to_update.length) {
@@ -8609,7 +8642,7 @@
                         SBApps.openAI.init();
                         if (sources_to_delete == 'all') {
                             chatbot_area.find('.sb-nav [data-value="info"]').click();
-                        } else if (sources_to_delete = 'all-conversations') {
+                        } else if (sources_to_delete == 'all-conversations') {
                             chatbot_area.find('.sb-nav [data-value="conversations"]').click();
                         }
                         if (response === true) {
@@ -9390,7 +9423,9 @@
                 }
                 SBConversations.openConversation(SBF.getURL('conversation'));
             } else if (!responsive && !SBF.getURL('user') && !SBF.getURL('setting') && !SBF.getURL('report') && (!SBF.getURL('area') || SBF.getURL('area') == 'conversations')) {
-                SBConversations.clickFirst();
+                setTimeout(() => {
+                    SBConversations.clickFirst();
+                }, 100);
             }
             SBConversations.startRealTime();
             SBConversations.datetime_last_conversation = SB_ADMIN_SETTINGS.now_db;

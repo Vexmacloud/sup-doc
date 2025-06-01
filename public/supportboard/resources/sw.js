@@ -9,7 +9,7 @@
  *
 */
 
-const SB_CACHE_NAME = 'sb-3-7-9';
+const SB_CACHE_NAME = 'sb-3-8-0';
 const SB_OFFLINE = 'resources/pwa/offline.html';
 var sb_push_link;
 var sb_push_conversation_id;

@@ -95,7 +95,7 @@
                 left: 0;
             }
 
-            &.sb-dashboard-active .sb-responsive-close-btn {
+            &.sb-dashboard-active .sb-responsive-close-btn, &.sb-queue-active .sb-responsive-close-btn, .sb-header-main > .sb-responsive-close-btn {
                 display: block;
             }
         }
@@ -336,10 +336,6 @@
             padding-right: 15px !important;
             padding-left: 50px !important;
         }
-    }
-
-    .sb-header-main > .sb-responsive-close-btn, .sb-queue-active .sb-responsive-close-btn {
-        display: block;
     }
 
     .sb-overlay-panel {

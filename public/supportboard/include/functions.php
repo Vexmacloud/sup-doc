@@ -10,7 +10,7 @@ use Swoole\Http\Response;
  *
  */
 
-define('SB_VERSION', '3.7.9');
+define('SB_VERSION', '3.8.0');
 
 if (!defined('SB_PATH')) {
     $path = dirname(__DIR__, 1);
@@ -382,6 +382,7 @@ function sb_is_validation_error($object) {
  * 14. Translate a string in the given language
  * 15. Get language code
  * 16. Return the language code of the given language name
+ * 17. Check if the language is RTL
  *
  */
 
@@ -602,7 +603,7 @@ function sb_save_translations($translations) {
     }
     foreach ($translations as $key => $translation) {
         foreach ($translation as $key_area => $translations_list) {
-            $json = html_entity_decode(json_encode($translations_list, JSON_INVALID_UTF8_IGNORE, JSON_UNESCAPED_UNICODE));
+            $json = str_replace('\\\n', '\n', html_entity_decode(json_encode($translations_list, JSON_INVALID_UTF8_IGNORE, JSON_UNESCAPED_UNICODE)));
             if ($json) {
                 if ($is_cloud) {
                     sb_file($cloud_path . '/' . $key_area . '/' . $key . '.json', $json);
@@ -692,6 +693,10 @@ function sb_get_language_code_by_name($language_name, &$language_codes = false) 
         }
     }
     return $language_name;
+}
+
+function sb_is_rtl($language_code = false) {
+    return in_array($language_code ? $language_code : sb_get_user_language((sb_is_agent() && sb_get_setting('admin-auto-translations')) || (!sb_is_agent() && sb_get_setting('front-auto-translations') == 'auto') ? sb_get_active_user_ID() : false), ['ar', 'he', 'ku', 'fa', 'ur']);
 }
 
 /*
@@ -2749,7 +2754,7 @@ function sb_automations_validate($automation, $is_flow = false) {
                 break;
             case 'include_urls': // Deprecated: all this block
             case 'exclude_urls': // Deprecated: all this block
-                $url = strtolower(str_replace(['https://', 'http://', 'www.'], '', sb_isset($_POST, 'current_url', $_SERVER['HTTP_REFERER'])));
+                $url = strtolower(str_replace(['https://', 'http://', 'www.'], '', sb_isset($_POST, 'current_url', sb_isset($_SERVER, 'HTTP_REFERER'))));
                 $checks = explode(',', strtolower(str_replace(['https://', 'http://', 'www.', ' '], '', $conditions[$i][2])));
                 if (($criteria == 'is-set' && !empty($checks)) || ($criteria == 'is-not-set' && empty($checks))) {
                     $valid = true;

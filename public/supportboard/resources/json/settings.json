@@ -97,12 +97,6 @@
     },
     {
       "type": "checkbox",
-      "id": "rtl",
-      "title": "RTL",
-      "content": "Activate the Right-To-Left (RTL) reading layout."
-    },
-    {
-      "type": "checkbox",
       "id": "auto-open",
       "title": "Open automatically",
       "content": "Open the chat window automatically when a new message is received."
@@ -719,12 +713,6 @@
     },
     {
       "type": "checkbox",
-      "id": "rtl-admin",
-      "title": "RTL",
-      "content": "Activate the Right-To-Left (RTL) reading layout for the admin area."
-    },
-    {
-      "type": "checkbox",
       "id": "show-profile-images-admin",
       "title": "Show profile images",
       "content": "Show the profile image of agents and users within the conversation."
@@ -1293,6 +1281,11 @@
           "type": "number",
           "id": "email-piping-department",
           "name": "Department ID"
+        },
+        {
+          "type": "text",
+          "id": "email-piping-filters",
+          "name": "Filters"
         },
         {
           "type": "button",
@@ -2512,7 +2505,7 @@
     {
       "type": "checkbox",
       "id": "logs",
-      "title": "Enable logs",
+      "title": "Logs",
       "content": "Enable logging of agent activity.",
       "help": "https://board.support/docs/#logs"
     },

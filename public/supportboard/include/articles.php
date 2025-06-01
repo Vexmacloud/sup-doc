@@ -115,7 +115,7 @@ if ($query_category_id) {
         $code .= '<p>' . sb_t('No results found.', $language) . '</p>';
     }
 }
-if (sb_get_setting('rtl') || in_array(sb_get_user_language(), ['ar', 'he', 'ku', 'fa', 'ur'])) {
+if (sb_is_rtl()) {
     $css .= ' sb-rtl';
 }
 $code .= '</div>';

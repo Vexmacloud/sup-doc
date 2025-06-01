@@ -563,6 +563,7 @@ function sb_update_user($user_id, $settings, $settings_extra = [], $hash_passwor
     $user_type = sb_isset($settings, 'user_type');
     $email = sb_isset($settings, 'email');
     $active_user = sb_get_active_user();
+    $is_active_user_agent = sb_is_agent($active_user);
     $query = '';
     if ($user_type && sb_is_agent($user_type) && !sb_is_agent(false, true, true)) {
         return sb_error('security-error', 'sb_update_user');
@@ -595,10 +596,10 @@ function sb_update_user($user_id, $settings, $settings_extra = [], $hash_passwor
     if (!empty($settings_extra['phone']) && intval(sb_db_get('SELECT COUNT(*) as count FROM sb_users_data WHERE slug = "phone" AND (value = "' . $settings_extra['phone'][0] . '"' . (strpos($settings_extra['phone'][0], '+') !== false ? (' OR value = "' . str_replace('+', '00', $settings_extra['phone'][0]) . '"') : '') . ') AND user_id <> ' . sb_db_escape($user_id, true))['count']) > 0) {
         return new SBValidationError('duplicate-phone');
     }
-    if (!$skip_otp && $email && sb_get_setting('registration-otp') && sb_otp($email, sb_isset($settings, 'otp')) !== true) {
+    if (!$is_active_user_agent && !$skip_otp && $email && sb_otp($email, sb_isset($settings, 'otp')) !== true && sb_get_setting('registration-otp')) {
         return new SBValidationError('invalid-otp');
     }
-    if (!sb_is_agent() && (!$user_type || !sb_is_agent($user_type))) {
+    if (!$is_active_user_agent && (!$user_type || !sb_is_agent($user_type))) {
         $user_type = $email || $active_user['email'] ? 'user' : (intval(sb_db_get('SELECT COUNT(*) AS count FROM sb_conversations WHERE user_id = ' . $user_id)['count']) > 0 ? 'lead' : 'visitor');
     }
     if ($user_type) {
@@ -659,7 +660,7 @@ function sb_update_user($user_id, $settings, $settings_extra = [], $hash_passwor
     }
 
     // More
-    if (sb_is_agent() && sb_get_setting('logs')) {
+    if ($is_active_user_agent && sb_get_setting('logs')) {
         sb_logs('updated the user details of the user #' . $user_id);
     }
     return $result;
@@ -1418,7 +1419,6 @@ function sb_queue($conversation_id, $department = false) {
     $unix_now = time();
     $unix_min = strtotime('-1 minutes');
     $conversation = sb_db_get('SELECT user_id, agent_id, source FROM sb_conversations WHERE id = ' . sb_db_escape($conversation_id, true));
-    $messaging_platform = !empty($conversation['source']) && $conversation['source'] != 'tk';
     $show_progress = !sb_execute_bot_message('offline', 'check');
     if (!empty(sb_isset($conversation, 'agent_id'))) {
         return 0;
@@ -1447,11 +1447,8 @@ function sb_queue($conversation_id, $department = false) {
             $position = 0;
             $user_id = $conversation['user_id'];
             $message = sb_t(sb_isset($settings, 'queue-message-success', 'It\'s your turn! An agent will reply to you shortly.'));
-            $message_id = sb_send_message(sb_get_bot_id(), $conversation_id, $message, [], 2)['id'];
+            sb_send_message(sb_get_bot_id(), $conversation_id, $message, [], 2)['id'];
             sb_send_agents_notifications(sb_isset(sb_get_last_message($conversation_id, false, $user_id), 'message'), false, $conversation_id);
-            if ($messaging_platform) {
-                sb_messaging_platforms_send_message($message, $conversation_id, $message_id);
-            }
         } else if ($position == 0) {
             array_push($queue, [$conversation_id, $unix_now, $department]);
             $position = $index + 1;
@@ -1461,16 +1458,6 @@ function sb_queue($conversation_id, $department = false) {
         $position = $index + 1;
     }
     sb_save_external_setting('queue', $queue);
-    if ($messaging_platform && $position != 0) {
-        sb_routing($conversation_id, $department);
-        $message = sb_t($settings['queue-message']);
-        if ($message && $show_progress) {
-            $time = intval(sb_isset($settings, 'queue-response-time', 5)) * $position;
-            $message = str_replace(['{position}', '{minutes}'], [$position, $time], $message);
-            $message_id = sb_send_message(sb_get_bot_id(), $conversation_id, $message)['id'];
-            sb_messaging_platforms_send_message($message, $conversation_id, $message_id);
-        }
-    }
     return [$position, $show_progress];
 }
 
@@ -1487,11 +1474,11 @@ function sb_routing_assign_conversation($agent_id, $conversation_id = false) {
     return sb_db_query('UPDATE sb_conversations SET agent_id = ' . (is_null($agent_id) ? 'NULL' : sb_db_escape($agent_id, true)) . ' WHERE id = ' . sb_db_escape($conversation_id, true));
 }
 
-function sb_routing_assign_conversations_active_agent() {
+function sb_routing_assign_conversations_active_agent($is_queue = false) {
     $active_user = sb_get_active_user();
     if ($active_user && sb_is_agent($active_user, true, false, true)) {
         $department = sb_get_agent_department();
-        return sb_db_query('UPDATE sb_conversations SET agent_id = "' . $active_user['id'] . '" WHERE (agent_id = 0 OR agent_id IS NULL)' . ($department !== false && $department !== '' ? ' AND department = ' . $department : ''));
+        return sb_db_query('UPDATE sb_conversations SET agent_id = "' . $active_user['id'] . '" WHERE (agent_id = 0 OR agent_id IS NULL)' . ($department !== false && $department !== '' ? ' AND department = ' . $department : '') . ($is_queue ? ' AND source <> "" AND source IS NOT NULL' : ''));
     }
     return false;
 }
@@ -1506,7 +1493,7 @@ function sb_routing($conversation_id = false, $department = false, $unassigned =
     return false;
 }
 
-function sb_routing_find_best_agent($department = false, $cuncurrent_chats = 9999) {
+function sb_routing_find_best_agent($department = false, $concurrent_chats = 9999) {
     $department = sb_db_escape($department);
     $online_agents_ids = sb_get_multi_setting('routing', 'routing-disable-status-check') ? sb_get_agents_ids(false) : sb_get_online_user_ids('agent');
     $smaller = false;
@@ -1518,7 +1505,7 @@ function sb_routing_find_best_agent($department = false, $cuncurrent_chats = 999
         }
         for ($i = 0; $i < count($counts); $i++) {
             $count = intval(sb_isset($counts[$i], 'count', 0));
-            if ($count < $cuncurrent_chats && ($smaller === false || $count < $smaller['count'])) {
+            if ($count < $concurrent_chats && ($smaller === false || $count < $smaller['count'])) {
                 $smaller = $counts[$i];
             }
         }

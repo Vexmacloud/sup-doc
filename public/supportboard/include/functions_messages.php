@@ -1446,8 +1446,10 @@ function sb_messaging_platforms_functions($conversation_id, $message, $attachmen
         if (!sb_get_multi_setting('privacy', 'privacy-disable-channels')) {
             array_push($bot_messages, 'privacy');
         }
-        for ($i = 0; $i < count($bot_messages); $i++) {
-            $bot_message = $i == 0 || empty($user['email']) ? sb_execute_bot_message($bot_messages[$i], $conversation_id, $last_message) : false;
+        $count = count($bot_messages);
+        $last_user_message = $count ? sb_get_last_message($conversation_id, $message, $user_id)['message'] : false;
+        for ($i = 0; $i < $count; $i++) {
+            $bot_message = $i == 0 || empty($user['email']) ? sb_execute_bot_message($bot_messages[$i], $conversation_id, $last_user_message) : false;
             $message_2 = false;
             if ($i == 3 && $is_new_conversation && sb_get_multi_setting('welcome-message', 'welcome-active') && (!sb_get_multi_setting('welcome-message', 'welcome-disable-office-hours') || sb_office_hours())) {
                 $message_2 = sb_get_multi_setting('welcome-message', 'welcome-msg');
@@ -1609,6 +1611,7 @@ function sb_send_sms($message, $to, $template = true, $conversation_id = true, $
     // Send the SMS
     $message = sb_clear_text_formatting(strip_tags($message));
     $query = ['Body' => $message, 'From' => $settings['sms-sender'], 'To' => $to];
+    $query_curl = $query;
     if ($attachments) {
         $mime_types = ['jpeg', 'jpg', 'png', 'gif'];
         for ($i = 0; $i < count($attachments); $i++) {
@@ -1620,12 +1623,12 @@ function sb_send_sms($message, $to, $template = true, $conversation_id = true, $
             }
         }
         $query['Body'] = $message;
-        $query = http_build_query($query);
-        if (strpos($query, 'MediaUrl')) {
-            $query = str_replace(['MediaUrl0', 'MediaUrl1', 'MediaUrl2', 'MediaUrl3', 'MediaUrl4', 'MediaUrl5', 'MediaUrl6', 'MediaUrl7', 'MediaUrl8', 'MediaUrl9'], 'MediaUrl', $query);
+        $query_curl = http_build_query($query);
+        if (strpos($query_curl, 'MediaUrl')) {
+            $query_curl = str_replace(['MediaUrl0', 'MediaUrl1', 'MediaUrl2', 'MediaUrl3', 'MediaUrl4', 'MediaUrl5', 'MediaUrl6', 'MediaUrl7', 'MediaUrl8', 'MediaUrl9'], 'MediaUrl', $query_curl);
         }
     }
-    $response = sb_curl('https://api.twilio.com/2010-04-01/Accounts/' . $settings['sms-user'] . '/Messages.json', $query, ['Authorization: Basic  ' . base64_encode($settings['sms-user'] . ':' . $settings['sms-token'])]);
+    $response = sb_curl('https://api.twilio.com/2010-04-01/Accounts/' . $settings['sms-user'] . '/Messages.json', $query_curl, ['Authorization: Basic  ' . base64_encode($settings['sms-user'] . ':' . $settings['sms-token'])]);
     sb_webhooks('SBSMSSent', array_merge($query, $response));
     return $response;
 }
