@@ -1,0 +1,56 @@
+# name: Deploy Laravel & Vue to EC2
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Checkout Repository
+#       uses: actions/checkout@v4
+
+#     - name: Set up SSH
+#       run: |
+#         mkdir -p ~/.ssh
+#         echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+#         chmod 600 ~/.ssh/id_rsa
+#         ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+#     - name: Deploy to EC2
+#       run: |
+#         ssh -i ~/.ssh/id_rsa bitnami@${{ secrets.EC2_HOST }} << 'EOF'
+#           export PATH=$PATH:/opt/bitnami/nodejs/bin
+
+#           # Remove existing directory and create fresh one
+#           sudo rm -rf /opt/bitnami/apache/htdocs
+#           sudo mkdir -p /opt/bitnami/apache/htdocs
+#           sudo chown -R bitnami:daemon /opt/bitnami/apache/htdocs
+#           cd /opt/bitnami/apache/htdocs
+
+#           # Clone new code
+#           git clone ${{ secrets.REPO_URL }} .
+
+#           # Install dependencies and build assets
+#           composer install --no-dev --optimize-autoloader
+#           npm install && npm run build
+
+#           # Create .env from secret ENV_CONTENT
+#           echo "${{ secrets.ENV_CONTENT }}" > .env
+
+#           # Laravel commands
+#           php artisan key:generate
+#           php artisan migrate --force
+#           php artisan config:clear
+#           php artisan cache:clear
+
+#           # Fix permissions
+#           sudo chown -R bitnami:daemon /opt/bitnami/apache/htdocs
+#           sudo chmod -R 775 /opt/bitnami/apache/htdocs/storage /opt/bitnami/apache/htdocs/bootstrap/cache
+
+#           # Restart Apache via Bitnami control script
+#           sudo /opt/bitnami/ctlscript.sh restart apache
+#         EOF
